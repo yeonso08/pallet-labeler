@@ -12,6 +12,7 @@ from matplotlib.path import Path as Polygon
 from engine import read_cloud,infer,save_cloud,LABEL
 from scipy.spatial import cKDTree
 from viewer import BACKGROUND,display_indices,point_colors
+import theme
 
 ROOT=Path(__file__).resolve().parent
 # Matplotlib rasterizes every point on every frame, so a moving view is only as
@@ -24,66 +25,78 @@ SETTLE_MS=220
 
 class App:
  def __init__(self,win):
-  self.win=win;win.title('Pallet Labeler v2.1 · 컬러 점군 보기');win.geometry('1250x850')
+  self.win=win;win.title('Pallet Labeler 2.1');win.geometry('1250x850')
   self.jobs=queue.Queue();self.busy=False;self.ply=None;self.labels=None;self.selected=None;self.current=None;self.model=None
   self.files=[];self.undo=[];self.view3d=True;self.reset_view=True
   self.full_artist=None;self.lod_artist=None;self.moving=False;self.settle_timer=None;self.labels_version=0;self.centers=None
   config_path=ROOT/'model_config.json'
   self.model_options=json.loads(config_path.read_text()) if config_path.exists() else {'기본 모델':{'file':'model.joblib','split':.1}}
   self.active_model_name=next(iter(self.model_options));self.active_model_file=ROOT/self.model_options[self.active_model_name]['file']
-  style=ttk.Style();style.theme_use('clam');style.configure('TButton',padding=7);style.configure('TLabel',padding=3)
+  fonts=theme.apply(win)
   head=ttk.Frame(win,padding=(18,12));head.pack(fill='x')
-  ttk.Label(head,text='PALLET LABELER',font=('',20,'bold')).pack(side='left')
-  ttk.Label(head,text='팔레트 1  ·  부자재 2, 3, 4…  ·  자동 결과는 확인 후 저장').pack(side='left',padx=20)
+  ttk.Label(head,text='Pallet Labeler',style='Wordmark.TLabel').pack(side='left')
+  ttk.Label(head,text='팔레트 1  ·  부자재 2, 3, 4…  ·  자동 결과는 확인 후 저장',style='Muted.TLabel').pack(side='left',padx=20)
   body=ttk.Panedwindow(win,orient='horizontal');body.pack(fill='both',expand=True,padx=16)
   left=ttk.Frame(body,width=265,padding=8);right=ttk.Frame(body);body.add(left,weight=0);body.add(right,weight=1)
-  ttk.Label(left,text='자동 라벨링 모델').pack(anchor='w')
+  ttk.Label(left,text='자동 라벨링 모델',style='Muted.TLabel').pack(anchor='w')
   self.model_choice=tk.StringVar(value=self.active_model_name)
   self.model_combo=ttk.Combobox(left,textvariable=self.model_choice,values=list(self.model_options),state='readonly',width=25);self.model_combo.pack(fill='x',pady=(0,6))
   self.model_combo.bind('<<ComboboxSelected>>',self.change_model)
   ttk.Button(left,text='PLY 파일 추가',command=self.add_files).pack(fill='x')
   ttk.Button(left,text='폴더에서 추가',command=self.add_folder).pack(fill='x',pady=4)
   self.listbox=tk.Listbox(left,width=27,height=10,exportselection=False);self.listbox.pack(fill='x',pady=8)
+  theme.style_listbox(self.listbox,fonts)
   self.listbox.bind('<Double-1>',lambda _:self.open_selected())
   ttk.Button(left,text='선택 파일 열기 / 자동 라벨링',command=self.open_selected).pack(fill='x')
-  ttk.Label(left,text='물체 경계 분리 기준').pack(anchor='w',pady=(12,0))
-  self.split=tk.DoubleVar(value=self.model_options[self.active_model_name]['split']);ttk.Scale(left,from_=.02,to=.35,variable=self.split).pack(fill='x')
-  ttk.Label(left,text='왼쪽: 더 잘게 분리 / 오른쪽: 더 크게 합침',font=('',10)).pack(anchor='w')
+  ttk.Label(left,text='물체 경계 분리 기준',style='Muted.TLabel').pack(anchor='w',pady=(12,0))
+  self.split=tk.DoubleVar(value=self.model_options[self.active_model_name]['split'])
+  theme.slider(left,self.split,.02,.35,.01).pack(fill='x')
+  ttk.Label(left,text='왼쪽: 더 잘게 분리 / 오른쪽: 더 크게 합침',style='Muted.TLabel').pack(anchor='w')
   self.out=tk.StringVar(value=str(ROOT/'results'))
   ttk.Button(left,text='선택 파일 다시 자동 라벨링',command=lambda:self.open_selected(force=True)).pack(fill='x',pady=4)
-  ttk.Label(left,text='저장 폴더').pack(anchor='w',pady=(12,0))
+  ttk.Label(left,text='저장 폴더',style='Muted.TLabel').pack(anchor='w',pady=(12,0))
   ttk.Entry(left,textvariable=self.out,width=27).pack(fill='x')
   ttk.Button(left,text='저장 폴더 선택',command=self.choose_out).pack(fill='x',pady=4)
   ttk.Button(left,text='추가한 파일 일괄 처리',command=self.batch).pack(fill='x',pady=6)
-  ttk.Label(left,text='일괄 결과는 자동 초안입니다.\nCloudCompare에서 확인하세요.\n원본 파일은 변경하지 않습니다.',wraplength=245).pack(anchor='w',pady=8)
+  ttk.Label(left,text='일괄 결과는 자동 초안입니다.\nCloudCompare에서 확인하세요.\n원본 파일은 변경하지 않습니다.',style='Muted.TLabel',wraplength=245).pack(anchor='w',pady=8)
   controls=ttk.Frame(right);controls.pack(fill='x')
   self.label=tk.StringVar(value='2')
-  ttk.Label(controls,text='선택한 점 → 라벨').pack(side='left');ttk.Entry(controls,textvariable=self.label,width=5).pack(side='left')
+  ttk.Label(controls,text='선택한 점 → 라벨',style='Muted.TLabel').pack(side='left')
+  ttk.Entry(controls,textvariable=self.label,width=5).pack(side='left')
   ttk.Button(controls,text='적용',command=self.assign).pack(side='left',padx=3)
   ttk.Button(controls,text='새 물체로 분리',command=self.new_object).pack(side='left')
   ttk.Button(controls,text='되돌리기',command=self.rollback).pack(side='left',padx=3)
   ttk.Button(controls,text='2D / 3D',command=self.toggle).pack(side='left')
-  ttk.Button(controls,text='수정 결과 저장',command=self.save).pack(side='right')
+  ttk.Button(controls,text='수정 결과 저장',style='Accent.TButton',command=self.save).pack(side='right')
   display=ttk.Frame(right);display.pack(fill='x',pady=5)
   self.color_mode=tk.StringVar(value='원본 색상');self.density=tk.StringVar(value='촘촘하게');self.point_size=tk.DoubleVar(value=2.0);self.show_pallet=tk.BooleanVar(value=True);self.show_numbers=tk.BooleanVar(value=True)
   self.color_combo=ttk.Combobox(display,textvariable=self.color_mode,values=['물체별 색상','원본 색상','높이 색상'],state='readonly',width=12);self.color_combo.pack(side='left');self.color_combo.bind('<<ComboboxSelected>>',lambda _:self.draw())
   self.density_combo=ttk.Combobox(display,textvariable=self.density,values=['빠르게','촘촘하게','전체 점'],state='readonly',width=10);self.density_combo.pack(side='left',padx=5);self.density_combo.bind('<<ComboboxSelected>>',lambda _:self.draw())
-  ttk.Checkbutton(display,text='팔레트 표시',variable=self.show_pallet,command=self.draw).pack(side='left')
-  ttk.Checkbutton(display,text='번호 표시',variable=self.show_numbers,command=self.draw).pack(side='left')
-  ttk.Label(display,text='점 크기').pack(side='left');size=ttk.Scale(display,from_=.5,to=5,variable=self.point_size,length=75);size.pack(side='left');size.bind('<ButtonRelease-1>',lambda _:self.draw())
+  self.pallet_btn=self.switch(display,'팔레트 표시',self.show_pallet);self.pallet_btn.pack(side='left')
+  self.number_btn=self.switch(display,'번호 표시',self.show_numbers);self.number_btn.pack(side='left',padx=4)
+  ttk.Label(display,text='점 크기',style='Muted.TLabel').pack(side='left')
+  size=theme.slider(display,self.point_size,.5,5,.1,length=75);size.pack(side='left');size.bind('<ButtonRelease-1>',lambda _:self.draw())
   ttk.Button(display,text='화면 맞춤',command=self.fit_view).pack(side='right')
   ttk.Button(display,text='선택 해제',command=self.clear_selection).pack(side='right',padx=4)
-  ttk.Label(right,text='3D: 드래그로 회전 · 휠로 확대  |  2D: 영역 선택 / 오른쪽 클릭으로 물체 선택  |  선택한 점은 흰색').pack(anchor='w')
+  ttk.Label(right,text='3D: 드래그로 회전 · 휠로 확대  |  2D: 영역 선택 / 오른쪽 클릭으로 물체 선택  |  선택한 점은 흰색',style='Muted.TLabel').pack(anchor='w')
   self.fig=Figure(figsize=(8,6),facecolor=BACKGROUND);self.ax=self.fig.add_subplot(111)
   self.canvas=FigureCanvasTkAgg(self.fig,master=right);self.canvas.get_tk_widget().pack(fill='both',expand=True)
   self.toolbar=NavigationToolbar2Tk(self.canvas,right);self.lasso=None
+  theme.style_toolbar(self.toolbar,fonts)
   self.canvas.mpl_connect('button_press_event',self.pick_instance)
   self.canvas.mpl_connect('scroll_event',self.zoom)
   self.canvas.mpl_connect('button_press_event',self.start_move)
   self.canvas.mpl_connect('button_release_event',self.end_move)
   self.status=tk.StringVar(value='PLY 파일을 추가하고 자동 라벨링을 시작하세요. 제공된 스캐너 좌표와 단위를 사용합니다.')
-  ttk.Label(win,textvariable=self.status,padding=12,wraplength=1200).pack(fill='x')
+  ttk.Label(win,textvariable=self.status,style='Muted.TLabel',padding=12,wraplength=1200).pack(fill='x')
   win.after(100,self.poll);self.draw()
+ def switch(self,parent,text,flag):
+  """On/off control: clam's own checkbutton marks the checked state with an X."""
+  button=ttk.Button(parent,text=text,style='On.TButton' if flag.get() else 'Off.TButton')
+  def flip():
+   flag.set(not flag.get());button.configure(style='On.TButton' if flag.get() else 'Off.TButton');self.draw()
+  button.configure(command=flip)
+  return button
  def change_model(self,event=None):
   if self.busy:self.model_choice.set(self.active_model_name);return
   self.active_model_name=self.model_choice.get();option=self.model_options[self.active_model_name]
