@@ -6,6 +6,8 @@
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-09-10
+
 ### Added
 - **파일 목록에서 파일을 뺄 수 있습니다.** 목록에서 고르고 버튼을 누르거나 Delete(맥에서는 Backspace) 키를 누르면 됩니다. 여러 개를 한 번에 고를 수도 있고, 목록에서만 빠지며 디스크의 파일은 그대로입니다. 지금 열어 놓은 파일을 빼면 화면에서도 닫히며, 저장하지 않은 수정이 있으면 먼저 물어봅니다.
 - **수정 결과를 저장할 때 이름과 위치를 지정합니다.** 이전에는 `원래이름_labeled.ply`로 자동 저장됐습니다. 이미 있는 파일은 덮어쓸지 물어보고, 불러온 원본 PLY는 덮어쓸 수 없습니다.
@@ -40,5 +42,6 @@
 - v1/v2 모델 파일 및 평가 결과 (`model.joblib`, `models/model_v1.joblib`, `evaluation.json`, `evaluation_v2.json`)
 - 사용법 및 검증 기록 문서
 
-[Unreleased]: https://github.com/yeonso08/pallet-labeler/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/yeonso08/pallet-labeler/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/yeonso08/pallet-labeler/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/yeonso08/pallet-labeler/releases/tag/v2.1.0

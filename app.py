@@ -32,7 +32,7 @@ class Toolbar(NavigationToolbar2Tk):
 
 class App:
  def __init__(self,win):
-  self.win=win;win.title('Pallet Labeler 2.1');win.geometry('1250x850')
+  self.win=win;win.title('Pallet Labeler 2.2');win.geometry('1250x850')
   self.jobs=queue.Queue();self.busy=False;self.ply=None;self.labels=None;self.selected=None;self.current=None;self.model=None
   self.files=[];self.undo=[];self.view3d=True;self.reset_view=True
   self.full_artist=None;self.lod_artist=None;self.moving=False;self.settle_timer=None;self.labels_version=0;self.centers=None
