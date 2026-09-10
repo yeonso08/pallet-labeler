@@ -1,6 +1,6 @@
 """Local point-cloud instance labeling. No cloud services or source-file writes."""
 from pathlib import Path
-import json
+import json, os
 import numpy as np
 from plyfile import PlyData, PlyElement
 from scipy import ndimage as ndi
@@ -18,9 +18,10 @@ def read_cloud(path):
     if len(xyz)==0 or not np.isfinite(xyz).all(): raise ValueError('빈 파일 또는 유효하지 않은 좌표가 있습니다.')
     return ply,xyz
 
-def save_cloud(ply, labels, path, review=None):
+def save_cloud(ply, labels, path, review=None, overwrite=False):
+    """Write the labelled cloud. Replaces an existing file only when asked to."""
     path=Path(path)
-    if path.exists(): raise FileExistsError(f'이미 존재하는 파일입니다: {path}')
+    if path.exists() and not overwrite: raise FileExistsError(f'이미 존재하는 파일입니다: {path}')
     a=ply['vertex'].data
     names=[n for n in a.dtype.names if n not in (LABEL,'instance_label','scalar_review_needed')]
     dtype=[(n,a.dtype.fields[n][0]) for n in names]+[(LABEL,'<f4')]
@@ -31,9 +32,18 @@ def save_cloud(ply, labels, path, review=None):
     if review is not None:out['scalar_review_needed']=review
     elements=[PlyElement.describe(out,'vertex') if e.name=='vertex' else e for e in ply.elements]
     path.parent.mkdir(parents=True,exist_ok=True)
-    # Exclusive creation protects previously saved results as well as originals.
-    with path.open('xb') as f:
-        PlyData(elements,text=False,byte_order='<',comments=list(ply.comments)+['Auto labels: manually review before training']).write(f)
+    data=PlyData(elements,text=False,byte_order='<',comments=list(ply.comments)+['Auto labels: manually review before training'])
+    if not overwrite:
+        # Exclusive creation protects previously saved results as well as originals.
+        with path.open('xb') as f: data.write(f)
+        return
+    # Build the replacement alongside the target so a failure cannot destroy the old file.
+    staged=path.with_name(path.name+'.part')
+    try:
+        with staged.open('wb') as f: data.write(f)
+        os.replace(staged,path)
+    finally:
+        staged.unlink(missing_ok=True)
 
 def rasterize(ply, cell=4.):
     a=ply['vertex'].data; xyz=np.column_stack([a[k] for k in ('x','y','z')]).astype(np.float32)

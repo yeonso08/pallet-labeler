@@ -52,10 +52,14 @@ class App:
   self.model_combo.bind('<<ComboboxSelected>>',self.change_model)
   ttk.Button(left,text='PLY 파일 추가',command=self.add_files).pack(fill='x')
   ttk.Button(left,text='폴더에서 추가',command=self.add_folder).pack(fill='x',pady=4)
-  self.listbox=tk.Listbox(left,width=27,height=10,exportselection=False);self.listbox.pack(fill='x',pady=8)
+  self.listbox=tk.Listbox(left,width=27,height=10,selectmode='extended',exportselection=False);self.listbox.pack(fill='x',pady=8)
   theme.style_listbox(self.listbox,fonts)
   self.listbox.bind('<Double-1>',lambda _:self.open_selected())
+  # Delete on a full keyboard, Backspace on a Mac keyboard.
+  self.listbox.bind('<Delete>',self.drop_files)
+  self.listbox.bind('<BackSpace>',self.drop_files)
   ttk.Button(left,text='선택 파일 열기 / 자동 라벨링',command=self.open_selected).pack(fill='x')
+  ttk.Button(left,text='선택 파일 목록에서 빼기',command=self.drop_files).pack(fill='x',pady=4)
   ttk.Label(left,text='물체 경계 분리 기준',style='Muted.TLabel').pack(anchor='w',pady=(12,0))
   self.split=tk.DoubleVar(value=self.model_options[self.active_model_name]['split'])
   theme.slider(left,self.split,.02,.35,.01).pack(fill='x')
@@ -121,6 +125,13 @@ class App:
    p=Path(p)
    if p not in self.files:self.files.append(p);self.listbox.insert('end',p.name)
   if self.files and not self.listbox.curselection():self.listbox.selection_set(0)
+ def drop_files(self,event=None):
+  chosen=list(self.listbox.curselection())
+  if not chosen:return
+  for i in reversed(chosen):self.listbox.delete(i);self.files.pop(i)
+  if self.files:
+   nxt=min(chosen[0],len(self.files)-1);self.listbox.selection_set(nxt);self.listbox.see(nxt)
+  self.status.set(f'목록에서 {len(chosen)}개를 뺐습니다. 디스크의 파일은 그대로입니다.')
  def choose_out(self):
   p=filedialog.askdirectory()
   if p:self.out.set(p)
@@ -346,13 +357,28 @@ class App:
   if self.busy or not self.undo:return
   ix,old,review=self.undo.pop();self.labels[ix]=old;self.review[ix]=review;self.selected=None;self.labels_version+=1;self.draw()
  def toggle(self):self.view3d=not self.view3d;self.reset_view=True;self.draw()
+ def is_source(self,path):
+  """True when path is one of the PLY files we read, which must never be written over."""
+  for other in [self.current,*self.files]:
+   try:
+    if other is not None and path.resolve()==Path(other).resolve():return True
+   except OSError:pass
+  return False
  def save(self):
   if self.labels is None or self.busy:return
+  dest=filedialog.asksaveasfilename(title='수정 결과 저장',initialdir=self.out.get(),
+                                    initialfile=f'{self.current.stem}_labeled.ply',
+                                    defaultextension='.ply',filetypes=[('Point cloud','*.ply')])
+  if not dest:return
+  dest=Path(dest)
+  if self.is_source(dest):
+   messagebox.showerror('저장 위치','불러온 원본 PLY는 덮어쓸 수 없습니다. 다른 이름으로 저장하세요.');return
   try:
    # Preserve pallet=1; compact object IDs after manual merges/deletions.
    out=np.ones(len(self.labels),np.int32)
    for new,old in enumerate(np.unique(self.labels[self.labels>1]),2):out[self.labels==old]=new
-   dest=self.unique_path(self.out.get(),self.current.stem);save_cloud(self.ply,out,dest,self.review)
+   # The file dialog already asked before replacing anything.
+   save_cloud(self.ply,out,dest,self.review,overwrite=True)
    self.labels=out;self.undo=[];self.labels_version+=1;self.draw();self.status.set(f'저장 완료 · {dest}');messagebox.showinfo('저장 완료',f'{dest}\n\nCloudCompare에서 instance_label을 선택해 확인하세요.')
   except Exception as e:messagebox.showerror('저장 오류',str(e))
 
