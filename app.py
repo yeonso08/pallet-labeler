@@ -14,12 +14,20 @@ from scipy.spatial import cKDTree
 from viewer import BACKGROUND,display_indices,point_colors
 
 ROOT=Path(__file__).resolve().parent
+# Matplotlib rasterizes every point on every frame, so a moving view is only as
+# smooth as the point count: ~2us/point here. Swap to this many while the camera
+# moves, then settle back to full detail once it stops. Marker size costs almost
+# nothing, so the sparse pass draws fatter points to stay readable.
+INTERACTIVE_POINTS=20000
+INTERACTIVE_POINT_SCALE=2.2
+SETTLE_MS=220
 
 class App:
  def __init__(self,win):
   self.win=win;win.title('Pallet Labeler v2.1 · 컬러 점군 보기');win.geometry('1250x850')
   self.jobs=queue.Queue();self.busy=False;self.ply=None;self.labels=None;self.selected=None;self.current=None;self.model=None
   self.files=[];self.undo=[];self.view3d=True;self.reset_view=True
+  self.full_artist=None;self.lod_artist=None;self.moving=False;self.settle_timer=None;self.labels_version=0;self.centers=None
   config_path=ROOT/'model_config.json'
   self.model_options=json.loads(config_path.read_text()) if config_path.exists() else {'기본 모델':{'file':'model.joblib','split':.1}}
   self.active_model_name=next(iter(self.model_options));self.active_model_file=ROOT/self.model_options[self.active_model_name]['file']
@@ -71,6 +79,8 @@ class App:
   self.toolbar=NavigationToolbar2Tk(self.canvas,right);self.lasso=None
   self.canvas.mpl_connect('button_press_event',self.pick_instance)
   self.canvas.mpl_connect('scroll_event',self.zoom)
+  self.canvas.mpl_connect('button_press_event',self.start_move)
+  self.canvas.mpl_connect('button_release_event',self.end_move)
   self.status=tk.StringVar(value='PLY 파일을 추가하고 자동 라벨링을 시작하세요. 제공된 스캐너 좌표와 단위를 사용합니다.')
   ttk.Label(win,textvariable=self.status,padding=12,wraplength=1200).pack(fill='x')
   win.after(100,self.poll);self.draw()
@@ -147,7 +157,7 @@ class App:
     elif kind=='error':self.status.set('오류: '+data);messagebox.showerror('오류',data)
     elif kind=='status':self.status.set(data)
     elif kind=='loaded':
-     self.current,self.ply,self.xyz,self.labels,self.review,self.info=data;self.selected=None;self.undo=[];self.xy_tree=cKDTree(self.xyz[:,:2]);self.reset_view=True
+     self.current,self.ply,self.xyz,self.labels,self.review,self.info=data;self.selected=None;self.undo=[];self.xy_tree=cKDTree(self.xyz[:,:2]);self.reset_view=True;self.labels_version+=1
      self.status.set(f'{self.current.name} · {len(self.labels):,}점 · 부자재 {self.info["objects"]}개 추정 · 경계/불확실 점 {self.info["review_fraction"]:.1%} · 자동 초안');self.draw()
   except queue.Empty:pass
   self.win.after(100,self.poll)
@@ -160,13 +170,49 @@ class App:
   for axis in axes:
    lo,hi=getattr(self.ax,'get_'+axis+'lim')();center=(lo+hi)/2;half=(hi-lo)*factor/2
    getattr(self.ax,'set_'+axis+'lim')(center-half,center+half)
+  self.show_moving();self.settle_later()
+ def start_move(self,event):
+  # 2D lasso and right-click picking keep full detail; only pan/zoom drags move the camera.
+  if event.inaxes!=self.ax or self.labels is None:return
+  if self.view3d or self.toolbar.mode:self.show_moving()
+ def end_move(self,event):
+  if self.moving:self.settle_later()
+ def show_moving(self):
+  self.cancel_settle()
+  if self.lod_artist is not None and not self.moving:
+   self.moving=True;self.full_artist.set_visible(False);self.lod_artist.set_visible(True)
   self.canvas.draw_idle()
+ def settle_later(self):
+  self.cancel_settle();self.settle_timer=self.win.after(SETTLE_MS,self.settle)
+ def cancel_settle(self):
+  if self.settle_timer is not None:self.win.after_cancel(self.settle_timer);self.settle_timer=None
+ def settle(self):
+  self.settle_timer=None
+  if not self.moving:return
+  self.moving=False
+  if self.lod_artist is not None:self.lod_artist.set_visible(False);self.full_artist.set_visible(True)
+  self.canvas.draw_idle()
+ def add_lod(self,pts,colors,size):
+  if len(pts)<=INTERACTIVE_POINTS:return
+  k=display_indices(len(pts),INTERACTIVE_POINTS);p=pts[k];c=colors[k];size=size*INTERACTIVE_POINT_SCALE
+  if self.view3d:self.lod_artist=self.ax.scatter(p[:,0],p[:,1],p[:,2],c=c,s=size,depthshade=False,linewidths=0,antialiased=False)
+  else:self.lod_artist=self.ax.scatter(p[:,0],p[:,1],c=c,s=size,linewidths=0,antialiased=False)
+  self.lod_artist.set_visible(False)
+ def label_centers(self):
+  # Scanning every point once per object is too slow to repeat on each redraw.
+  if self.centers is None or self.centers[0]!=self.labels_version:
+   centers={}
+   for lab in np.unique(self.labels):
+    v=self.xyz[self.labels==lab];c=np.median(v,axis=0);c[2]=np.quantile(v[:,2],.9)+3;centers[int(lab)]=c
+   self.centers=(self.labels_version,centers)
+  return self.centers[1]
  def draw(self):
   camera=None;limits=None
   if not self.reset_view and self.labels is not None:
    if self.view3d and getattr(self.ax,'name','')=='3d':camera=(self.ax.elev,self.ax.azim,self.ax.roll);limits=(self.ax.get_xlim(),self.ax.get_ylim(),self.ax.get_zlim())
    elif not self.view3d and getattr(self.ax,'name','')!='3d':limits=(self.ax.get_xlim(),self.ax.get_ylim())
   if self.lasso:self.lasso.disconnect_events();self.lasso=None
+  self.cancel_settle();self.moving=False;self.full_artist=None;self.lod_artist=None
   self.fig.clear();self.fig.set_facecolor(BACKGROUND);self.ax=self.fig.add_axes([.01,.01,.98,.98],projection='3d' if self.view3d else None)
   self.ax.set_facecolor(BACKGROUND);self.ax.set_axis_off()
   if self.labels is None:
@@ -180,7 +226,8 @@ class App:
    size=float(self.point_size.get())
    if self.view3d:
     self.ax.set_proj_type('ortho')
-    self.ax.scatter(pts[:,0],pts[:,1],pts[:,2],c=colors,s=size,depthshade=False,linewidths=0,antialiased=False)
+    self.full_artist=self.ax.scatter(pts[:,0],pts[:,1],pts[:,2],c=colors,s=size,depthshade=False,linewidths=0,antialiased=False)
+    self.add_lod(pts,colors,size)
     extent=np.maximum(np.ptp(self.xyz,axis=0),1);self.ax.set_box_aspect(extent,zoom=1.12)
     self.ax.view_init(*(camera or (55,-65,0)))
     if limits:
@@ -189,20 +236,23 @@ class App:
      for k,axis in enumerate('xyz'):
       lo,hi=np.quantile(self.xyz[:,k],[0,1]);pad=max((hi-lo)*.025,.5);getattr(self.ax,'set_'+axis+'lim')(lo-pad,hi+pad)
    else:
-    self.ax.scatter(pts[:,0],pts[:,1],c=colors,s=size,linewidths=0,antialiased=False);self.ax.set_aspect('equal');self.lasso=LassoSelector(self.ax,self.select,button=1,props=dict(color='white',linewidth=1.5))
+    self.full_artist=self.ax.scatter(pts[:,0],pts[:,1],c=colors,s=size,linewidths=0,antialiased=False);self.add_lod(pts,colors,size)
+    self.ax.set_aspect('equal');self.lasso=LassoSelector(self.ax,self.select,button=1,props=dict(color='white',linewidth=1.5))
     if limits:self.ax.set_xlim(limits[0]);self.ax.set_ylim(limits[1])
     else:self.ax.set_xlim(self.xyz[:,0].min()-20,self.xyz[:,0].max()+20);self.ax.set_ylim(self.xyz[:,1].min()-20,self.xyz[:,1].max()+20)
    if self.show_numbers.get():
-    for lab in np.unique(self.labels):
+    for lab,center in self.label_centers().items():
      if lab==1 and not self.show_pallet.get():continue
-     v=self.xyz[self.labels==lab];center=np.median(v,axis=0);center[2]=np.quantile(v[:,2],.9)+3
      kw=dict(fontsize=10,color='white',weight='bold',ha='center',bbox=dict(facecolor='#0a1322',alpha=.85,edgecolor='none',pad=2))
      if self.view3d:self.ax.text(*center,str(lab),**kw)
      else:self.ax.text(*center[:2],str(lab),**kw)
    caption=f'{self.current.name}  |  {len(ix):,} / {len(self.labels):,} points'
    if self.view3d:self.ax.text2D(.015,.97,caption,color='#c6d8ed',fontsize=9,transform=self.ax.transAxes)
    else:self.ax.text(.015,.97,caption,color='#c6d8ed',fontsize=9,transform=self.ax.transAxes)
-  self.reset_view=False;self.canvas.draw_idle()
+  self.reset_view=False
+  # Paint the sparse pass first so a toggle feels instant, then fill in full detail.
+  self.show_moving()
+  if self.lod_artist is not None:self.settle_later()
  def select(self,vertices):
   if self.busy or len(vertices)<3:return
   self.selected=Polygon(vertices).contains_points(self.xyz[:,:2]);
@@ -224,12 +274,12 @@ class App:
   except ValueError:messagebox.showerror('라벨 번호','1 이상의 정수를 입력하세요.');return
   self.undo.append((np.flatnonzero(self.selected),self.labels[self.selected].copy(),self.review[self.selected].copy()))
   if len(self.undo)>20:self.undo.pop(0)
-  self.labels[self.selected]=value;self.review[self.selected]=0;self.selected=None;self.draw();self.status.set('수정했습니다. 결과 저장 버튼으로 새 PLY를 저장하세요.')
+  self.labels[self.selected]=value;self.review[self.selected]=0;self.selected=None;self.labels_version+=1;self.draw();self.status.set('수정했습니다. 결과 저장 버튼으로 새 PLY를 저장하세요.')
  def new_object(self):
   if self.labels is not None:self.label.set(str(int(self.labels.max())+1));self.assign()
  def rollback(self):
   if self.busy or not self.undo:return
-  ix,old,review=self.undo.pop();self.labels[ix]=old;self.review[ix]=review;self.selected=None;self.draw()
+  ix,old,review=self.undo.pop();self.labels[ix]=old;self.review[ix]=review;self.selected=None;self.labels_version+=1;self.draw()
  def toggle(self):self.view3d=not self.view3d;self.reset_view=True;self.draw()
  def save(self):
   if self.labels is None or self.busy:return
@@ -238,7 +288,7 @@ class App:
    out=np.ones(len(self.labels),np.int32)
    for new,old in enumerate(np.unique(self.labels[self.labels>1]),2):out[self.labels==old]=new
    dest=self.unique_path(self.out.get(),self.current.stem);save_cloud(self.ply,out,dest,self.review)
-   self.labels=out;self.undo=[];self.draw();self.status.set(f'저장 완료 · {dest}');messagebox.showinfo('저장 완료',f'{dest}\n\nCloudCompare에서 instance_label을 선택해 확인하세요.')
+   self.labels=out;self.undo=[];self.labels_version+=1;self.draw();self.status.set(f'저장 완료 · {dest}');messagebox.showinfo('저장 완료',f'{dest}\n\nCloudCompare에서 instance_label을 선택해 확인하세요.')
   except Exception as e:messagebox.showerror('저장 오류',str(e))
 
 if __name__=='__main__':

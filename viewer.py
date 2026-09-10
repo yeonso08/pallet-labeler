@@ -1,4 +1,5 @@
 """Display-only point cloud helpers. No changes to coordinates or labels."""
+from functools import lru_cache
 import numpy as np
 from matplotlib import colormaps
 from matplotlib.colors import to_rgb
@@ -6,10 +7,13 @@ from matplotlib.colors import to_rgb
 BACKGROUND='#111b2b'
 PALETTE=np.array([to_rgb(c) for c in ['#2374ef','#ffad24','#1cdbc8','#f75069','#a979ff','#d6ed40','#ff75d2','#30c3fa','#ff7744','#70e35b','#e9cc8b','#9fafff','#beecff','#b59054','#e85cff','#16b895','#f5e153','#baea88','#fbaecb','#838bff']],dtype=np.float32)
 
+@lru_cache(maxsize=8)
 def display_indices(count,budget):
-    if budget is None or count<=budget:return np.arange(count)
+    if budget is None or count<=budget:ix=np.arange(count)
     # Regular subsampling exaggerates the scanner's scan-line pattern.
-    return np.sort(np.random.default_rng(42).choice(count,budget,replace=False))
+    else:ix=np.sort(np.random.default_rng(42).choice(count,budget,replace=False))
+    ix.setflags(write=False)  # the cache hands the same array to every caller
+    return ix
 
 def point_colors(ply,xyz,labels,indices,mode,selected=None):
     if mode=='원본 색상':
