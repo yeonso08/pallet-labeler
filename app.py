@@ -126,12 +126,22 @@ class App:
    if p not in self.files:self.files.append(p);self.listbox.insert('end',p.name)
   if self.files and not self.listbox.curselection():self.listbox.selection_set(0)
  def drop_files(self,event=None):
+  if self.busy:self.status.set('처리 중에는 목록을 바꿀 수 없습니다.');return
   chosen=list(self.listbox.curselection())
   if not chosen:return
+  dropping=[self.files[i] for i in chosen]
+  closing=self.current in dropping
+  if closing and self.undo and not messagebox.askyesno('미저장 수정','열려 있는 파일을 목록에서 빼면 화면에서도 닫히고 수정 내용이 사라집니다. 계속할까요?'):return
   for i in reversed(chosen):self.listbox.delete(i);self.files.pop(i)
   if self.files:
    nxt=min(chosen[0],len(self.files)-1);self.listbox.selection_set(nxt);self.listbox.see(nxt)
+  if closing:self.close_current()
   self.status.set(f'목록에서 {len(chosen)}개를 뺐습니다. 디스크의 파일은 그대로입니다.')
+ def close_current(self):
+  """Forget the open cloud so the canvas matches the list again."""
+  self.current=self.ply=self.xyz=self.labels=self.review=self.info=None
+  self.selected=None;self.undo=[];self.centers=None;self.labels_version+=1;self.reset_view=True
+  self.draw()
  def choose_out(self):
   p=filedialog.askdirectory()
   if p:self.out.set(p)
@@ -263,8 +273,7 @@ class App:
   self.fig.clear();self.fig.set_facecolor(BACKGROUND);self.ax=self.fig.add_axes([.01,.01,.98,.98],projection='3d' if self.view3d else None)
   self.ax.set_facecolor(BACKGROUND);self.ax.set_axis_off()
   if self.labels is None:
-   if self.view3d:self.ax.text2D(.5,.5,'Open a PLY file to begin',ha='center',color='white',transform=self.ax.transAxes)
-   else:self.ax.text(.5,.5,'Open a PLY file to begin',ha='center',color='white',transform=self.ax.transAxes)
+   self.fig.text(.5,.5,'왼쪽에서 PLY 파일을 추가한 뒤 열어 주세요',ha='center',va='center',color=theme.MUTED,fontsize=11)
   else:
    budget={'빠르게':60000,'촘촘하게':200000,'전체 점':None}[self.density.get()]
    ix=display_indices(len(self.labels),budget)
