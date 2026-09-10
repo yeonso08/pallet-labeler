@@ -6,6 +6,7 @@ action and for controls that are currently switched on.
 """
 import tkinter as tk
 from tkinter import ttk, font as tkfont
+from matplotlib import font_manager, rcParams
 from viewer import BACKGROUND
 
 SCAN=BACKGROUND
@@ -22,8 +23,9 @@ ON_ACCENT='#1a1204'
 SELECT='#1f3a5c'
 HANDLE='#b9c8dd'
 
-# Korean UI faces first: the whole interface is Korean and the fallbacks render it poorly.
-FACES=['Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR','Segoe UI','Helvetica Neue']
+# Korean faces first: the whole interface is Korean, and matplotlib's own default
+# (DejaVu Sans) has no Hangul at all, so canvas text comes out as empty boxes.
+FACES=['Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR','NanumGothic','AppleGothic','Segoe UI','Helvetica Neue']
 
 def _family(root):
     available={f.lower() for f in tkfont.families(root)}
@@ -31,10 +33,19 @@ def _family(root):
         if name.lower() in available:return name
     return ''
 
+def _canvas_family():
+    """Tk and matplotlib keep separate font lists, so the canvas needs its own lookup."""
+    known={f.name for f in font_manager.fontManager.ttflist}
+    for name in FACES:
+        if name in known:return name
+    return None
+
 def apply(root):
     """Style every ttk class this app uses and return the font set."""
     family=_family(root)
     fonts=dict(wordmark=(family,16,'bold'),ui=(family,12),small=(family,11))
+    canvas_face=_canvas_family()
+    if canvas_face:rcParams['font.family']='sans-serif';rcParams['font.sans-serif']=[canvas_face,'DejaVu Sans']
     root.configure(background=PANEL)
     root.option_add('*TCombobox*Listbox.background',CONTROL)
     root.option_add('*TCombobox*Listbox.foreground',TEXT)
