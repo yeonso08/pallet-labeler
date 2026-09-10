@@ -279,15 +279,20 @@ class App:
     if limits:self.ax.set_xlim(limits[0]);self.ax.set_ylim(limits[1])
     else:self.ax.set_xlim(self.xyz[:,0].min()-20,self.xyz[:,0].max()+20);self.ax.set_ylim(self.xyz[:,1].min()-20,self.xyz[:,1].max()+20)
    self.lasso=LassoSelector(self.ax,self.select,button=1,props=dict(color='white',linewidth=1.5))
+   # mplot3d forces its axes region square (Axes3D.apply_aspect), which on a wide canvas
+   # leaves wide empty margins and cuts the cloud off well inside them. Paint over the
+   # whole figure instead of stopping at the axes rectangle.
+   for artist in (self.full_artist,self.lod_artist):
+    if artist is not None:artist.set_clip_on(False)
    if self.show_numbers.get():
     for lab,center in self.label_centers().items():
      if lab==1 and not self.show_pallet.get():continue
      kw=dict(fontsize=10,color='white',weight='bold',ha='center',bbox=dict(facecolor='#0a1322',alpha=.85,edgecolor='none',pad=2))
      if self.view3d:self.ax.text(*center,str(lab),**kw)
      else:self.ax.text(*center[:2],str(lab),**kw)
-   caption=f'{self.current.name}  |  {len(ix):,} / {len(self.labels):,} points'
-   if self.view3d:self.ax.text2D(.015,.97,caption,color='#c6d8ed',fontsize=9,transform=self.ax.transAxes)
-   else:self.ax.text(.015,.97,caption,color='#c6d8ed',fontsize=9,transform=self.ax.transAxes)
+   # On the figure, not the axes: a 3D axes sits inset from the canvas edge.
+   self.fig.text(.012,.975,f'{self.current.name}  |  {len(ix):,} / {len(self.labels):,} points',color='#c6d8ed',fontsize=9,va='top',
+                 bbox=dict(facecolor=BACKGROUND,alpha=.75,edgecolor='none',pad=3))
   self.reset_view=False
   # Paint the sparse pass first so a toggle feels instant, then fill in full detail.
   self.show_moving()
