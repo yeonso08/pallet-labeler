@@ -1,0 +1,11 @@
+[
+  {
+    "file": "/Users/hwangjaeyeon/Downloads/라벨링전/166.ply",
+    "output": "outputs/pallet-labeler/examples_v2/166_labeled.ply",
+    "seconds": 0.408,
+    "objects": 12,
+    "review_fraction": 0.09997434914112091,
+    "split": 0.06,
+    "min_cells": 150
+  }
+]

@@ -1,0 +1,151 @@
+{
+  "training": [
+    "103.ply",
+    "104.ply",
+    "105.ply",
+    "106.ply",
+    "107.ply",
+    "108.ply",
+    "109.ply",
+    "110.ply",
+    "112.ply",
+    "114.ply",
+    "115.ply",
+    "116.ply",
+    "117.ply",
+    "118.ply",
+    "119.ply",
+    "120.ply",
+    "121.ply",
+    "122.ply",
+    "123.ply"
+  ],
+  "excluded": [
+    {
+      "file": "111.ply",
+      "reason": "정답 라벨이 없습니다."
+    },
+    {
+      "file": "113.ply",
+      "reason": "중복 정답 라벨 필드가 있습니다."
+    }
+  ],
+  "results": [
+    {
+      "pallet_iou": 0.9933055638202916,
+      "object_mean_iou": 0.7537811833117861,
+      "object_f1_at_50": 0.7692307692307693,
+      "true_objects": 11,
+      "predicted_objects": 15,
+      "scored_points": 588130,
+      "file": "124.ply",
+      "split": "validation",
+      "seconds": 0.58
+    },
+    {
+      "pallet_iou": 0.9897255578533642,
+      "object_mean_iou": 0.8159695809788065,
+      "object_f1_at_50": 0.8,
+      "true_objects": 11,
+      "predicted_objects": 14,
+      "scored_points": 588698,
+      "file": "125.ply",
+      "split": "validation",
+      "seconds": 0.742
+    },
+    {
+      "pallet_iou": 0.9882966591805625,
+      "object_mean_iou": 0.8290810004939823,
+      "object_f1_at_50": 0.88,
+      "true_objects": 11,
+      "predicted_objects": 14,
+      "scored_points": 589536,
+      "file": "126.ply",
+      "split": "validation",
+      "seconds": 0.91
+    },
+    {
+      "pallet_iou": 0.9935472952099009,
+      "object_mean_iou": 0.7840245704086755,
+      "object_f1_at_50": 0.7857142857142857,
+      "true_objects": 11,
+      "predicted_objects": 17,
+      "scored_points": 588900,
+      "file": "127.ply",
+      "split": "validation",
+      "seconds": 0.654
+    },
+    {
+      "pallet_iou": 0.9616429567088629,
+      "object_mean_iou": 0.9141766370648756,
+      "object_f1_at_50": 0.9166666666666666,
+      "true_objects": 11,
+      "predicted_objects": 13,
+      "scored_points": 588662,
+      "file": "128.ply",
+      "split": "test",
+      "seconds": 0.499
+    },
+    {
+      "pallet_iou": 0.9785396663551137,
+      "object_mean_iou": 0.834504985895477,
+      "object_f1_at_50": 0.8333333333333334,
+      "true_objects": 10,
+      "predicted_objects": 14,
+      "scored_points": 586859,
+      "file": "129.ply",
+      "split": "test",
+      "seconds": 0.934
+    },
+    {
+      "pallet_iou": 0.9936034638361222,
+      "object_mean_iou": 0.9122182362819866,
+      "object_f1_at_50": 0.9565217391304348,
+      "true_objects": 11,
+      "predicted_objects": 12,
+      "scored_points": 588259,
+      "file": "130.ply",
+      "split": "test",
+      "seconds": 0.559
+    },
+    {
+      "pallet_iou": 0.9272375941361758,
+      "object_mean_iou": 0.806652604969982,
+      "object_f1_at_50": 0.6206896551724138,
+      "true_objects": 11,
+      "predicted_objects": 18,
+      "scored_points": 586192,
+      "file": "131.ply",
+      "split": "test",
+      "seconds": 0.473
+    },
+    {
+      "pallet_iou": 0.9836555978504895,
+      "object_mean_iou": 0.8483697518696889,
+      "object_f1_at_50": 0.8,
+      "true_objects": 11,
+      "predicted_objects": 14,
+      "scored_points": 591431,
+      "file": "132.ply",
+      "split": "test",
+      "seconds": 0.711
+    },
+    {
+      "pallet_iou": 0.9818329306581697,
+      "object_mean_iou": 0.8814268744775032,
+      "object_f1_at_50": 0.9166666666666666,
+      "true_objects": 11,
+      "predicted_objects": 13,
+      "scored_points": 592123,
+      "file": "133.ply",
+      "split": "test",
+      "seconds": 0.475
+    }
+  ],
+  "parameters": {
+    "cell": 4,
+    "split": 0.1,
+    "min_cells": 150
+  },
+  "evaluation_note": "Parameters selected using validation files 124-127. Test 128-133 excluded from fitting. Metrics score exact-coordinate matched points only, not deleted/unmatched points. Object IDs matched using Hungarian maximum IoU, with pallet fixed to 1. Same scanner and acquisition setup only; scans may be correlated."
+}

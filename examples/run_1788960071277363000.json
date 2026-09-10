@@ -1,0 +1,11 @@
+[
+  {
+    "file": "/Users/hwangjaeyeon/Desktop/2/128.ply",
+    "output": "outputs/pallet-labeler/examples/128_labeled.ply",
+    "seconds": 0.391,
+    "objects": 13,
+    "review_fraction": 0.12444498389959335,
+    "split": 0.1,
+    "min_cells": 150
+  }
+]

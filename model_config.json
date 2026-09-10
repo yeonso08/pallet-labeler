@@ -1,0 +1,10 @@
+{
+  "추가 학습 모델 (v2)": {
+    "file": "model.joblib",
+    "split": 0.06
+  },
+  "이전 모델 (v1)": {
+    "file": "models/model_v1.joblib",
+    "split": 0.1
+  }
+}
