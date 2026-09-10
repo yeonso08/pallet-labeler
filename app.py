@@ -9,8 +9,8 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg,NavigationToolbar2Tk
 from matplotlib.widgets import LassoSelector
 from matplotlib.path import Path as Polygon
+from mpl_toolkits.mplot3d import proj3d
 from engine import read_cloud,infer,save_cloud,LABEL
-from scipy.spatial import cKDTree
 from viewer import BACKGROUND,display_indices,point_colors
 import theme
 
@@ -22,6 +22,13 @@ ROOT=Path(__file__).resolve().parent
 INTERACTIVE_POINTS=20000
 INTERACTIVE_POINT_SCALE=2.2
 SETTLE_MS=220
+# A lasso this small in pixels was a click, not a drag.
+CLICK_SLOP=6
+PICK_RADIUS=18
+
+class Toolbar(NavigationToolbar2Tk):
+ # Panning and zooming are on the mouse now; keep only what the mouse cannot do.
+ toolitems=[item for item in NavigationToolbar2Tk.toolitems if item[0] in ('Home','Save')]
 
 class App:
  def __init__(self,win):
@@ -29,6 +36,7 @@ class App:
   self.jobs=queue.Queue();self.busy=False;self.ply=None;self.labels=None;self.selected=None;self.current=None;self.model=None
   self.files=[];self.undo=[];self.view3d=True;self.reset_view=True
   self.full_artist=None;self.lod_artist=None;self.moving=False;self.settle_timer=None;self.labels_version=0;self.centers=None
+  self.press_key=None;self.pan_from=None
   config_path=ROOT/'model_config.json'
   self.model_options=json.loads(config_path.read_text()) if config_path.exists() else {'기본 모델':{'file':'model.joblib','split':.1}}
   self.active_model_name=next(iter(self.model_options));self.active_model_file=ROOT/self.model_options[self.active_model_name]['file']
@@ -78,15 +86,16 @@ class App:
   size=theme.slider(display,self.point_size,.5,5,.1,length=75);size.pack(side='left');size.bind('<ButtonRelease-1>',lambda _:self.draw())
   ttk.Button(display,text='화면 맞춤',command=self.fit_view).pack(side='right')
   ttk.Button(display,text='선택 해제',command=self.clear_selection).pack(side='right',padx=4)
-  ttk.Label(right,text='3D: 드래그로 회전 · 휠로 확대  |  2D: 영역 선택 / 오른쪽 클릭으로 물체 선택  |  선택한 점은 흰색',style='Muted.TLabel').pack(anchor='w')
+  ttk.Label(right,text='왼쪽 드래그: 영역 선택  ·  왼쪽 클릭: 물체 선택  ·  Shift: 추가, Alt: 빼기  ·  오른쪽 드래그: 3D 회전 / 2D 이동  ·  휠 누르고 드래그: 이동  ·  Esc: 해제',style='Muted.TLabel').pack(anchor='w')
   self.fig=Figure(figsize=(8,6),facecolor=BACKGROUND);self.ax=self.fig.add_subplot(111)
   self.canvas=FigureCanvasTkAgg(self.fig,master=right);self.canvas.get_tk_widget().pack(fill='both',expand=True)
-  self.toolbar=NavigationToolbar2Tk(self.canvas,right);self.lasso=None
+  self.toolbar=Toolbar(self.canvas,right);self.lasso=None
   theme.style_toolbar(self.toolbar,fonts)
-  self.canvas.mpl_connect('button_press_event',self.pick_instance)
   self.canvas.mpl_connect('scroll_event',self.zoom)
   self.canvas.mpl_connect('button_press_event',self.start_move)
+  self.canvas.mpl_connect('motion_notify_event',self.pan_move)
   self.canvas.mpl_connect('button_release_event',self.end_move)
+  win.bind('<Escape>',lambda _:self.clear_selection())
   self.status=tk.StringVar(value='PLY 파일을 추가하고 자동 라벨링을 시작하세요. 제공된 스캐너 좌표와 단위를 사용합니다.')
   ttk.Label(win,textvariable=self.status,style='Muted.TLabel',padding=12,wraplength=1200).pack(fill='x')
   win.after(100,self.poll);self.draw()
@@ -170,12 +179,14 @@ class App:
     elif kind=='error':self.status.set('오류: '+data);messagebox.showerror('오류',data)
     elif kind=='status':self.status.set(data)
     elif kind=='loaded':
-     self.current,self.ply,self.xyz,self.labels,self.review,self.info=data;self.selected=None;self.undo=[];self.xy_tree=cKDTree(self.xyz[:,:2]);self.reset_view=True;self.labels_version+=1
+     self.current,self.ply,self.xyz,self.labels,self.review,self.info=data;self.selected=None;self.undo=[];self.reset_view=True;self.labels_version+=1
      self.status.set(f'{self.current.name} · {len(self.labels):,}점 · 부자재 {self.info["objects"]}개 추정 · 경계/불확실 점 {self.info["review_fraction"]:.1%} · 자동 초안');self.draw()
   except queue.Empty:pass
   self.win.after(100,self.poll)
  def fit_view(self):self.reset_view=True;self.draw()
- def clear_selection(self):self.selected=None;self.draw()
+ def clear_selection(self):
+  if self.selected is None:return
+  self.selected=None;self.status.set('선택을 해제했습니다.');self.draw()
  def zoom(self,event):
   if event.inaxes!=self.ax or self.labels is None:return
   factor=.85 if event.button=='up' else 1/.85
@@ -185,10 +196,22 @@ class App:
    getattr(self.ax,'set_'+axis+'lim')(center-half,center+half)
   self.show_moving();self.settle_later()
  def start_move(self,event):
-  # 2D lasso and right-click picking keep full detail; only pan/zoom drags move the camera.
   if event.inaxes!=self.ax or self.labels is None:return
-  if self.view3d or self.toolbar.mode:self.show_moving()
+  self.press_key=event.key
+  # Left drag is the lasso and leaves the camera alone; the other buttons move the view.
+  if event.button not in (2,3):return
+  if not self.view3d:
+   origin=self.ax.transData.inverted().transform([(event.x,event.y),(event.x+1,event.y+1)])
+   self.pan_from=(event.x,event.y,self.ax.get_xlim(),self.ax.get_ylim(),origin[1]-origin[0])
+  self.show_moving()
+ def pan_move(self,event):
+  if self.pan_from is None or event.x is None:return
+  x0,y0,xlim,ylim,scale=self.pan_from
+  dx=(x0-event.x)*scale[0];dy=(y0-event.y)*scale[1]
+  self.ax.set_xlim(xlim[0]+dx,xlim[1]+dx);self.ax.set_ylim(ylim[0]+dy,ylim[1]+dy)
+  self.canvas.draw_idle()
  def end_move(self,event):
+  self.pan_from=None
   if self.moving:self.settle_later()
  def show_moving(self):
   self.cancel_settle()
@@ -239,6 +262,8 @@ class App:
    size=float(self.point_size.get())
    if self.view3d:
     self.ax.set_proj_type('ortho')
+    # The left button draws the lasso, so rotating moves to the right button.
+    self.ax.mouse_init(rotate_btn=3,pan_btn=2,zoom_btn=[])
     self.full_artist=self.ax.scatter(pts[:,0],pts[:,1],pts[:,2],c=colors,s=size,depthshade=False,linewidths=0,antialiased=False)
     self.add_lod(pts,colors,size)
     extent=np.maximum(np.ptp(self.xyz,axis=0),1);self.ax.set_box_aspect(extent,zoom=1.12)
@@ -250,9 +275,10 @@ class App:
       lo,hi=np.quantile(self.xyz[:,k],[0,1]);pad=max((hi-lo)*.025,.5);getattr(self.ax,'set_'+axis+'lim')(lo-pad,hi+pad)
    else:
     self.full_artist=self.ax.scatter(pts[:,0],pts[:,1],c=colors,s=size,linewidths=0,antialiased=False);self.add_lod(pts,colors,size)
-    self.ax.set_aspect('equal');self.lasso=LassoSelector(self.ax,self.select,button=1,props=dict(color='white',linewidth=1.5))
+    self.ax.set_aspect('equal')
     if limits:self.ax.set_xlim(limits[0]);self.ax.set_ylim(limits[1])
     else:self.ax.set_xlim(self.xyz[:,0].min()-20,self.xyz[:,0].max()+20);self.ax.set_ylim(self.xyz[:,1].min()-20,self.xyz[:,1].max()+20)
+   self.lasso=LassoSelector(self.ax,self.select,button=1,props=dict(color='white',linewidth=1.5))
    if self.show_numbers.get():
     for lab,center in self.label_centers().items():
      if lab==1 and not self.show_pallet.get():continue
@@ -266,18 +292,39 @@ class App:
   # Paint the sparse pass first so a toggle feels instant, then fill in full detail.
   self.show_moving()
   if self.lod_artist is not None:self.settle_later()
+ def screen_xy(self):
+  """Every point in the flat coordinate space the lasso reports its vertices in."""
+  if not self.view3d:return self.xyz[:,:2]
+  xs,ys,_=proj3d.proj_transform(self.xyz[:,0],self.xyz[:,1],self.xyz[:,2],self.ax.get_proj())
+  return np.column_stack([xs,ys])
  def select(self,vertices):
-  if self.busy or len(vertices)<3:return
-  self.selected=Polygon(vertices).contains_points(self.xyz[:,:2]);
-  if not self.show_pallet.get():self.selected &= self.labels!=1
-  self.status.set(f'{self.selected.sum():,}점 선택됨. 적용할 라벨 번호를 입력하세요.');self.draw()
- def pick_instance(self,event):
-  if self.busy or self.labels is None or self.view3d or event.button!=3 or event.inaxes!=self.ax or self.toolbar.mode:return
-  d,ix=self.xy_tree.query([event.xdata,event.ydata])
-  if d>20:return
-  lab=self.labels[ix]
-  if lab==1 and not self.show_pallet.get():return
-  self.selected=self.labels==lab;self.status.set(f'라벨 {lab} 전체 {self.selected.sum():,}점 선택됨. 합칠 대상 번호를 입력하고 적용하세요.');self.draw()
+  if self.busy or self.labels is None:return
+  vertices=np.asarray(vertices,dtype=float)
+  # A click lands here as a lasso a few pixels wide; treat it as picking one object.
+  if len(vertices)<3 or np.ptp(self.ax.transData.transform(vertices),axis=0).max()<CLICK_SLOP:
+   self.pick(vertices[0]);return
+  inside=Polygon(vertices).contains_points(self.screen_xy())
+  if not self.show_pallet.get():inside&=self.labels!=1
+  self.choose(inside)
+ def pick(self,point):
+  pixels=self.ax.transData.transform(self.screen_xy())
+  gap=((pixels-self.ax.transData.transform(point))**2).sum(1)
+  near=int(np.argmin(gap))
+  if gap[near]>PICK_RADIUS**2:self.clear_selection();return
+  lab=int(self.labels[near])
+  if lab==1 and not self.show_pallet.get():self.clear_selection();return
+  whole=self.labels==lab
+  # Clicking the object that is already selected on its own clears it again.
+  if self.selected is not None and not self.press_key and np.array_equal(self.selected,whole):self.clear_selection();return
+  self.choose(whole,f'라벨 {lab} 전체')
+ def choose(self,mask,what='영역'):
+  key=self.press_key or ''
+  if self.selected is not None and 'shift' in key:mask=self.selected|mask
+  elif self.selected is not None and 'alt' in key:mask=self.selected&~mask
+  count=int(mask.sum())
+  self.selected=mask if count else None
+  self.status.set(f'{what} {count:,}점 선택됨. 라벨 번호를 입력하고 적용하세요.' if count else '선택한 점이 없습니다.')
+  self.draw()
  def assign(self):
   if self.busy:return
   if self.selected is None or not np.any(self.selected):return
