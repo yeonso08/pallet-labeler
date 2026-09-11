@@ -6,6 +6,8 @@
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-09-11
+
 여러 차례에 걸쳐 들어간 모델 개선과 세밀 수정 기능을 한꺼번에 기록합니다.
 전체 사용법은 `사용법.md`로 새로 정리했습니다.
 
@@ -81,6 +83,7 @@
 - v1/v2 모델 파일 및 평가 결과 (`model.joblib`, `models/model_v1.joblib`, `evaluation.json`, `evaluation_v2.json`)
 - 사용법 및 검증 기록 문서
 
-[Unreleased]: https://github.com/yeonso08/pallet-labeler/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/yeonso08/pallet-labeler/compare/v2.3.0...HEAD
+[2.3.0]: https://github.com/yeonso08/pallet-labeler/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/yeonso08/pallet-labeler/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/yeonso08/pallet-labeler/releases/tag/v2.1.0
