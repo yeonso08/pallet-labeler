@@ -102,16 +102,21 @@ def predict_grid(ply,model):
             boundary[:-1,:]=np.maximum(boundary[:-1,:],p);boundary[1:,:]=np.maximum(boundary[1:,:],p)
     return r,prob,boundary
 
-def segment_prediction(r,prob,boundary,split=.1,min_cells=150):
+def segment_prediction(r,prob,boundary,split=.1,min_cells=150,hole_fill_probability=0.,min_seed_cells=None,seed_smoothing=1):
+    if min_seed_cells is None:min_seed_cells=min_cells
     h,w=r['shape']
     obj=prob>.5
     # Bridge only small scanner sampling holes, never the outer empty area.
     support=ndi.distance_transform_edt(~r['valid'])<=1.5
     obj &= support
-    obj=ndi.binary_fill_holes(obj)&support
-    safe=obj&(boundary<split)
+    # Observed, confident pallet cells must not become objects merely because
+    # they are enclosed by an object silhouette. Keep legacy behavior at zero.
+    filled=ndi.binary_fill_holes(obj)&support
+    obj |= filled & ((~r['valid']) | (prob>=hole_fill_probability))
+    seed_boundary=ndi.median_filter(boundary,size=seed_smoothing) if seed_smoothing>1 else boundary
+    safe=obj&(seed_boundary<split)
     markers,n=ndi.label(safe)
-    sizes=np.bincount(markers.ravel());keep=sizes>=min_cells;keep[0]=False
+    sizes=np.bincount(markers.ravel());keep=sizes>=min_seed_cells;keep[0]=False
     markers[~keep[markers]]=0;markers,_=ndi.label(markers>0)
     # Every isolated object component needs a seed, including uncertain small pieces.
     cc,n=ndi.label(obj);next_id=int(markers.max())
@@ -127,12 +132,18 @@ def segment_prediction(r,prob,boundary,split=.1,min_cells=150):
     labels=labels_grid.ravel()[r['flat']]
     uncertain=((prob>.2)&(prob<.8))|(boundary>.35)
     review=uncertain.ravel()[r['flat']].astype(np.float32)
-    return labels,review,r,labels_grid,dict(objects=len(ids),review_fraction=float(review.mean()),split=split,min_cells=min_cells)
+    return labels,review,r,labels_grid,dict(objects=len(ids),review_fraction=float(review.mean()),split=split,min_cells=min_cells,hole_fill_probability=hole_fill_probability,min_seed_cells=min_seed_cells,seed_smoothing=seed_smoothing)
 
 def infer(ply,model,split=None,min_cells=None):
     if split is None:split=model.get('default_split',.1)
     if min_cells is None:min_cells=model.get('default_min_cells',150)
-    return segment_prediction(*predict_grid(ply,model),split=split,min_cells=min_cells)
+    result=segment_prediction(*predict_grid(ply,model),split=split,min_cells=min_cells,
+                              hole_fill_probability=model.get('hole_fill_probability',0.),
+                              min_seed_cells=model.get('min_seed_cells'),seed_smoothing=model.get('seed_smoothing',1))
+    if 'region_linker' in model:
+        from region_affinity import link_prediction
+        result=link_prediction(result,model['region_linker'],model['region_link_threshold'])
+    return result
 
 def evaluate(y,p):
     keep=y>0;y=y[keep];p=p[keep]

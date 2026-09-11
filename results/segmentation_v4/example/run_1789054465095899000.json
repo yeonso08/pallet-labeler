@@ -1,0 +1,12 @@
+[
+  {
+    "file": "/Users/hwangjaeyeon/Desktop/before/171.ply",
+    "output": "results/segmentation_v4/example/171_labeled.ply",
+    "seconds": 0.409,
+    "objects": 12,
+    "review_fraction": 0.119974784553051,
+    "split": 0.03,
+    "min_cells": 150,
+    "hole_fill_probability": 0.5
+  }
+]

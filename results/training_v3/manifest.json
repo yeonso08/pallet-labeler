@@ -1,0 +1,2005 @@
+{
+  "files": [
+    {
+      "id": "pair_103",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/103.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/103.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.998007576963053,
+      "points": 590738,
+      "objects": 11,
+      "coordinate_sha256": "e86bd78c82e9e4e3a938d641cc074ce47f53a249918b9b2e9395ded53fc10dc4"
+    },
+    {
+      "id": "pair_104",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/104.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/104.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9994965476345341,
+      "points": 591913,
+      "objects": 11,
+      "coordinate_sha256": "53cb3cccc7457e8b860b97fdfe2cd7aebe01a2e1c58dc077b7a92382c4d964f2"
+    },
+    {
+      "id": "pair_105",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/105.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/105.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9992268756301725,
+      "points": 591108,
+      "objects": 11,
+      "coordinate_sha256": "68b3854ee89027cebb42d931e020dba834523984233b7e81b129ca88aa6df7b3"
+    },
+    {
+      "id": "pair_106",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/106.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/106.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.997495502904709,
+      "points": 590937,
+      "objects": 11,
+      "coordinate_sha256": "28589c537f840d4a7c4dd942793c0f6c7068a863b22521216733bc438b340f41"
+    },
+    {
+      "id": "pair_107",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/107.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/107.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9927563716160843,
+      "points": 590588,
+      "objects": 11,
+      "coordinate_sha256": "bb403c34ac6bc8bcd314a9ad4663c67de07ede4689e2206ca2832e80ad84c5ed"
+    },
+    {
+      "id": "pair_108",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/108.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/108.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9976014290220341,
+      "points": 592853,
+      "objects": 11,
+      "coordinate_sha256": "7fa934b71e9d781c4ff377176fdcc48e506387e2e4e33361249577c456e4b8bc"
+    },
+    {
+      "id": "pair_109",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/109.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/109.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.998595396415979,
+      "points": 591626,
+      "objects": 11,
+      "coordinate_sha256": "e8e77f65bed030465e6f118ba37c85dbda70726d614f2fe7047db5c879792fdc"
+    },
+    {
+      "id": "pair_110",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/110.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/110.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9995455159829695,
+      "points": 591880,
+      "objects": 11,
+      "coordinate_sha256": "9edfc711f21c26f565b5e94e949ffb9aec8ecb2164b5888266113c96f13aa82d"
+    },
+    {
+      "id": "pair_111",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/111.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/111.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9983597298458146,
+      "points": 591366,
+      "objects": 11,
+      "coordinate_sha256": "061b977528a4888d0adedc9e494e2ba59e1d91afd1e2364bd258085e78073e1d"
+    },
+    {
+      "id": "pair_112",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/112.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/112.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9990230380474283,
+      "points": 591630,
+      "objects": 11,
+      "coordinate_sha256": "903c5811e484b8f0fb64089e8dc638d961a68a5215c26c0820893a9c5019a277"
+    },
+    {
+      "id": "pair_114",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/114.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/114.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9993002941136607,
+      "points": 590248,
+      "objects": 11,
+      "coordinate_sha256": "f5f1cc7d26160e9f4d7c1bff102be111df424bae8b30b1f9181f9dcc0c0499dd"
+    },
+    {
+      "id": "pair_115",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/115.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/115.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999508340471689,
+      "points": 591873,
+      "objects": 11,
+      "coordinate_sha256": "694b5d2068d5d012512f89131148a27ac880b6f515748b352eefebea93b93440"
+    },
+    {
+      "id": "pair_116",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/116.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/116.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9967278417982643,
+      "points": 590436,
+      "objects": 11,
+      "coordinate_sha256": "428782974d665d727ac094d7be89ba36a961694deea9813ce61be5adba36288a"
+    },
+    {
+      "id": "pair_117",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/117.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/117.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9997427665792863,
+      "points": 590903,
+      "objects": 11,
+      "coordinate_sha256": "ef1b0f184113af1d250433e49c4d4631322d35515b73879d957731e9298c86c5"
+    },
+    {
+      "id": "pair_118",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/118.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/118.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9829253030762943,
+      "points": 589703,
+      "objects": 11,
+      "coordinate_sha256": "1453604be478587e04ac7d9fbffad38930d229cec67db6c352968d09198e3b7f"
+    },
+    {
+      "id": "pair_119",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/119.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/119.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999881837594213,
+      "points": 592405,
+      "objects": 11,
+      "coordinate_sha256": "02d8dc7df04f0385fd17f2fcee0e1dcb68c109c5ef2d667b376f609ab3a8bc0f"
+    },
+    {
+      "id": "pair_120",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/120.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/120.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999847594791806,
+      "points": 590531,
+      "objects": 11,
+      "coordinate_sha256": "fa086211b9f7343f3915c0d3ce08bd6d69bd638441fba57acfd6121bbe124091"
+    },
+    {
+      "id": "pair_121",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/121.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/121.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999772195626156,
+      "points": 588224,
+      "objects": 11,
+      "coordinate_sha256": "a13f26593ebde848f46d59f1e259c86e6508bafe50686be6151eef2b141d1fe9"
+    },
+    {
+      "id": "pair_122",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/122.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/122.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999370337090889,
+      "points": 587616,
+      "objects": 11,
+      "coordinate_sha256": "0acb22e3c103ca1cb3a46209bf6b95b645c6797d2df51482fc1699880b67548e"
+    },
+    {
+      "id": "pair_123",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/123.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/123.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999105783898341,
+      "points": 589343,
+      "objects": 10,
+      "coordinate_sha256": "8be5c5778949d5fb871adade59b9ff82ec26076fefe78e9d6b1c4325b3032e98"
+    },
+    {
+      "id": "pair_124",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/124.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/124.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 0.9998265990289545,
+      "points": 588232,
+      "objects": 11,
+      "coordinate_sha256": "79a6af3168d470904c1fe27f0650afe71ab562908dcceb61a41d85c58e6d8685"
+    },
+    {
+      "id": "pair_125",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/125.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/125.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 0.9995602395421058,
+      "points": 588957,
+      "objects": 11,
+      "coordinate_sha256": "9ee71660e5a2af52e397373926278134d525e02c4480d1fcb0d5fa1365361113"
+    },
+    {
+      "id": "pair_126",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/126.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/126.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 0.9999270666017616,
+      "points": 589579,
+      "objects": 11,
+      "coordinate_sha256": "62945960e4eff65c08194b3668f328ed2512f0292500123b6c453dab8b66ae17"
+    },
+    {
+      "id": "pair_127",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/127.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/127.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 0.9999286856770276,
+      "points": 588942,
+      "objects": 11,
+      "coordinate_sha256": "c0ecadb7f986102f505a9e8a03a566d328c18dbf4d40518c05f520c700174fb2"
+    },
+    {
+      "id": "pair_128",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/128.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/128.ply",
+      "label_source": "scalar_instance_label",
+      "split": "old_test",
+      "match_fraction": 0.9991275951498364,
+      "points": 589176,
+      "objects": 11,
+      "coordinate_sha256": "0a206d3be00d607e3edddf6657969a118b67ce054a13e1eedbe819ea7df35bf0"
+    },
+    {
+      "id": "pair_129",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/129.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/129.ply",
+      "label_source": "scalar_instance_label",
+      "split": "old_test",
+      "match_fraction": 0.9943088824807105,
+      "points": 590218,
+      "objects": 11,
+      "coordinate_sha256": "e4659d99cb6bef0c732d19d7a5035d1364ab8b95f51e46e552dfe99f6301d4ae"
+    },
+    {
+      "id": "pair_130",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/130.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/130.ply",
+      "label_source": "scalar_instance_label",
+      "split": "old_test",
+      "match_fraction": 0.9962538380377699,
+      "points": 590471,
+      "objects": 11,
+      "coordinate_sha256": "4fb8c4e0da8c7b4d8ff5957aaa8cc1033058f2f874875e5d7e8622dce7af2507"
+    },
+    {
+      "id": "pair_131",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/131.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/131.ply",
+      "label_source": "scalar_instance_label",
+      "split": "old_test",
+      "match_fraction": 0.9945470524562017,
+      "points": 589406,
+      "objects": 11,
+      "coordinate_sha256": "1f786150568bbb98e22128513dabc035b9315994092f947af1688ce149a70eb4"
+    },
+    {
+      "id": "pair_132",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/132.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/132.ply",
+      "label_source": "scalar_instance_label",
+      "split": "old_test",
+      "match_fraction": 0.998598590823978,
+      "points": 592261,
+      "objects": 11,
+      "coordinate_sha256": "3d6399d9d4ece929ff8e253bfb182a4b63c34c11ac5bd09d93d33f960775b48a"
+    },
+    {
+      "id": "pair_133",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/133.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/133.ply",
+      "label_source": "scalar_instance_label",
+      "split": "old_test",
+      "match_fraction": 0.9997518023874247,
+      "points": 592270,
+      "objects": 11,
+      "coordinate_sha256": "1db9c370a768f68a81f47c63bfbdb44b54d76f550efd7f9b04799d7493d1152c"
+    },
+    {
+      "id": "pair_135",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/135.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/135.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999525228992231,
+      "points": 589758,
+      "objects": 11,
+      "coordinate_sha256": "899842356dc0b7cef3ca209664b5d1e63b4bade72c4dad25d3bea125c8746965"
+    },
+    {
+      "id": "pair_136",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/136.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/136.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999745450349242,
+      "points": 589276,
+      "objects": 11,
+      "coordinate_sha256": "4bd7a8933aa24f34f6ad59b847a773079a1507beec1e3ffed3f9c00b87f90a40"
+    },
+    {
+      "id": "pair_137",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/137.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/137.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9993766838901738,
+      "points": 587182,
+      "objects": 11,
+      "coordinate_sha256": "ac3548ca36fb6c953260c7dc3445ab9bf3c797684559eb53dcd76d0ce03a5866"
+    },
+    {
+      "id": "pair_138",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/138.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/138.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999863952288067,
+      "points": 588029,
+      "objects": 10,
+      "coordinate_sha256": "83746d303cd28047ee1c1982c2d37db5803eb307edb0305009f0246e1debbac7"
+    },
+    {
+      "id": "pair_139",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/139.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/139.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9995633564686708,
+      "points": 590871,
+      "objects": 11,
+      "coordinate_sha256": "b457705003ea85bebffdb9ff6856c987734bb549273292743d3e8f8df1f8516c"
+    },
+    {
+      "id": "pair_140",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/140.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/140.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999778206691047,
+      "points": 590640,
+      "objects": 11,
+      "coordinate_sha256": "b914c8f6b7eaa6fc9310fbc6cc7582b196b820e7a46c06ab9fd4cf6930c61102"
+    },
+    {
+      "id": "pair_141",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/141.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/141.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9998799089337604,
+      "points": 591218,
+      "objects": 11,
+      "coordinate_sha256": "1808ae7e4b1c743d8cadaf5ef6d5bef239b762d2538904c4940a960837d2e003"
+    },
+    {
+      "id": "pair_142",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/142.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/142.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9998327015987981,
+      "points": 591757,
+      "objects": 10,
+      "coordinate_sha256": "1ecc5fab8ccd311b9ec8ce6c1883510a86de6d6ac8ec7aee808749002f8d69ff"
+    },
+    {
+      "id": "pair_143",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/143.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/143.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.996652468086975,
+      "points": 592078,
+      "objects": 9,
+      "coordinate_sha256": "6186a4a8b120b948a24818a9bbc08d18efe3022b3798f273af8fdf2149303f3a"
+    },
+    {
+      "id": "pair_144",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/144.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/144.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9995475212809045,
+      "points": 590083,
+      "objects": 8,
+      "coordinate_sha256": "8f373b9e02fa7641f7491b407a5cb878b6392e7f0e004eda16248c1427a44751"
+    },
+    {
+      "id": "pair_145",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/145.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/145.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9991387405984822,
+      "points": 590995,
+      "objects": 9,
+      "coordinate_sha256": "34a4f46a71951a832de706a9fe9c287ae5ae831685414a8648a55178afba9889"
+    },
+    {
+      "id": "pair_146",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/146.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/146.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9995525296428005,
+      "points": 592218,
+      "objects": 9,
+      "coordinate_sha256": "206fc143bbaf62dc2c74f198924b755fe8569f6cd46ef1992c3f4aa06ea09ef7"
+    },
+    {
+      "id": "pair_147",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/147.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/147.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999708499279722,
+      "points": 590050,
+      "objects": 9,
+      "coordinate_sha256": "b68e96af74fc186f6f4416b43470b39e5591d2fc905859bad91787913449b8c8"
+    },
+    {
+      "id": "pair_148",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/148.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/148.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9981752782362151,
+      "points": 590775,
+      "objects": 9,
+      "coordinate_sha256": "5d15042305184748b39c885a1381b28c5a3a9637744934e5115f46d1b34cd3c5"
+    },
+    {
+      "id": "pair_149",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/149.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/149.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999542375983892,
+      "points": 590004,
+      "objects": 8,
+      "coordinate_sha256": "95d7a867010b73cb04013292710c84395fe54cbba5ea2eef0df11425bc69fd91"
+    },
+    {
+      "id": "pair_150",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/150.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/150.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999050235745056,
+      "points": 589620,
+      "objects": 9,
+      "coordinate_sha256": "6851bc3c8747b7f0f285132e21d2999d95e682f8c7d96d09e180a8d88eae3e64"
+    },
+    {
+      "id": "pair_151",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/151.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/151.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9995383367222587,
+      "points": 589174,
+      "objects": 8,
+      "coordinate_sha256": "086def1dd5f1c7da690c80e8f042e1cbcb1ec6ed291d0f62cc1a64f17d3e109d"
+    },
+    {
+      "id": "pair_152",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/152.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/152.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.998992002199268,
+      "points": 589287,
+      "objects": 8,
+      "coordinate_sha256": "7ae0b3d88cd63f8d8b17db281fa3a77b9e88a7ea760f65970cc8a5828f5daf2a"
+    },
+    {
+      "id": "pair_153",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/153.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/153.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9993997925628687,
+      "points": 588130,
+      "objects": 8,
+      "coordinate_sha256": "5c0f8ceaeb35b4066f37e55d251e9fa00ea893361a0019c08aa6ab04b49ca994"
+    },
+    {
+      "id": "pair_154",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/154.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/154.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999745443869524,
+      "points": 589261,
+      "objects": 8,
+      "coordinate_sha256": "ccc439fa75047d6829f95d6165d62c479be45b6e3a62b2ab225858e38a40692c"
+    },
+    {
+      "id": "pair_155",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/155.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/155.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999854049531516,
+      "points": 589241,
+      "objects": 8,
+      "coordinate_sha256": "0b6eced433d2d16bf7b110be002d8f58ce3389ef31adc442c20bc39df7256925"
+    },
+    {
+      "id": "pair_156",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/156.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/156.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999993195774576,
+      "points": 587870,
+      "objects": 9,
+      "coordinate_sha256": "be60b2e1691215e28cb83a73a95143f4aa5a6ac06e82d04cfda6dde079110bea"
+    },
+    {
+      "id": "pair_157",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/157.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/157.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 588074,
+      "objects": 9,
+      "coordinate_sha256": "cf1864daa712eeb5faf957f5f766457454b94980a5fbee15830037c4bd5a3557"
+    },
+    {
+      "id": "pair_158",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/158.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/158.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9998727472012868,
+      "points": 589378,
+      "objects": 10,
+      "coordinate_sha256": "416c6e7431bcf2468343cd4744896ff0a55c47c90e1c65b473efaf52a7e86909"
+    },
+    {
+      "id": "pair_159",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/159.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/159.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9998652913883683,
+      "points": 586451,
+      "objects": 9,
+      "coordinate_sha256": "23a6f5a90dd16f766818bfe3492da5add1f754e4888f7d7f8f48699109e454a2"
+    },
+    {
+      "id": "pair_160",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/160.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/160.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 0.9994984400635876,
+      "points": 588165,
+      "objects": 9,
+      "coordinate_sha256": "5637031cbb5793d417d3321a552b0f08ea06279265b9fcd23cb6de7555cb4385"
+    },
+    {
+      "id": "pair_161",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/161.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/161.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 0.9994872332936207,
+      "points": 590912,
+      "objects": 9,
+      "coordinate_sha256": "65e1b3db0f3e17036f5bbb59f49664463ab285f23619728d7c9cfc3a6b6b4b4a"
+    },
+    {
+      "id": "pair_162",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/162.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/162.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 0.9980337021415326,
+      "points": 588924,
+      "objects": 9,
+      "coordinate_sha256": "3fbbbe81cf9bcc8528b016203a0dcd595e061d11ad54aaedfeb592ee054f9fe9"
+    },
+    {
+      "id": "pair_163",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/163.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/163.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 591997,
+      "objects": 9,
+      "coordinate_sha256": "081c13911fc89defe21976af651aad1598a59c9adb71da0471b5beec467e9041"
+    },
+    {
+      "id": "pair_164",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/164.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/164.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 0.9983041733182069,
+      "points": 593221,
+      "objects": 11,
+      "coordinate_sha256": "1c632745b4efffca19b0405df1a3e37806e0bc87123432154bfac636b6f93729"
+    },
+    {
+      "id": "pair_165",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/165.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/165.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 0.9996456341791768,
+      "points": 589786,
+      "objects": 9,
+      "coordinate_sha256": "49ac63f9d2f7e926693bfeafae382ec3bfa808f0b04c535dcebc93bfd85800a2"
+    },
+    {
+      "id": "pair_166",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/166.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/166.ply",
+      "label_source": "scalar_instance_label",
+      "split": "new_test",
+      "match_fraction": 0.9996024809267291,
+      "points": 588651,
+      "objects": 9,
+      "coordinate_sha256": "40cc9e06435fc8f311eb1c569bb73a7da8b8dca903e5b318a43f67542eb7bdd5"
+    },
+    {
+      "id": "pair_167",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/167.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/167.ply",
+      "label_source": "scalar_instance_label",
+      "split": "new_test",
+      "match_fraction": 0.9999168054657112,
+      "points": 588981,
+      "objects": 9,
+      "coordinate_sha256": "bd25df9013d0a5bfe1b89bdadf4ddc262cfb2806658629017cedcf439444f6fa"
+    },
+    {
+      "id": "pair_168",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/168.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/168.ply",
+      "label_source": "scalar_instance_label",
+      "split": "new_test",
+      "match_fraction": 0.9999336727925795,
+      "points": 587994,
+      "objects": 9,
+      "coordinate_sha256": "4cab430ac675f34f43c6773555344d0da59890f2545ed759cd5de254b37d73d7"
+    },
+    {
+      "id": "pair_169",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/169.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/169.ply",
+      "label_source": "scalar_instance_label",
+      "split": "new_test",
+      "match_fraction": 0.9911353453377293,
+      "points": 591450,
+      "objects": 9,
+      "coordinate_sha256": "2594e9ee14677aa065a6242deccec79ad81925c905e7b464c0fbc3d575a0fbb4"
+    },
+    {
+      "id": "pair_170",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/170.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/170.ply",
+      "label_source": "scalar_instance_label",
+      "split": "new_test",
+      "match_fraction": 0.9993790496760259,
+      "points": 592640,
+      "objects": 9,
+      "coordinate_sha256": "cd47ff6c4d46c2790252dcd72a9bc91ed34aa1eb76d0224f1e8df2979acb2b6b"
+    },
+    {
+      "id": "pair_171",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/171.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/171.ply",
+      "label_source": "scalar_instance_label",
+      "split": "new_test",
+      "match_fraction": 0.9996543538704742,
+      "points": 590199,
+      "objects": 9,
+      "coordinate_sha256": "f5d3f1520080adc6e9e00cb79b88f6be5fcdb37ffa5154dedb221b57af89e32b"
+    },
+    {
+      "id": "pair_200",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/200.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/200.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999965968626476,
+      "points": 587693,
+      "objects": 8,
+      "coordinate_sha256": "2b063a20f5325567996b31fb07d4c99b932e3d0001dbe2797d5a619d5883de04"
+    },
+    {
+      "id": "pair_201",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/201.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/201.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999932047213596,
+      "points": 588644,
+      "objects": 9,
+      "coordinate_sha256": "4369b687154b590a61ac42a606698bc04c6aa0ad37610a7b227cb695de11ae6c"
+    },
+    {
+      "id": "pair_202",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/202.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/202.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999830676649971,
+      "points": 590586,
+      "objects": 9,
+      "coordinate_sha256": "4928ff2c451588d9d5c24403803c058758ab7b8b5bf0193e3a1a0ecfbf430212"
+    },
+    {
+      "id": "pair_203",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/203.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/203.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999966134985946,
+      "points": 590580,
+      "objects": 9,
+      "coordinate_sha256": "0c5188f9b83f58aaccdcfbb4a5aaab716c53b49a30655d5c4de2673f8a2a198c"
+    },
+    {
+      "id": "pair_204",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/204.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/204.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999986501284909,
+      "points": 592649,
+      "objects": 9,
+      "coordinate_sha256": "55438a9a0b5bae6dbe3b1c721b6af8734532b27feff773549db99e875cd0f9c4"
+    },
+    {
+      "id": "pair_205",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/205.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/205.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999308935963647,
+      "points": 593288,
+      "objects": 9,
+      "coordinate_sha256": "215606320237960f79e5a3ce09eb375a96aeaee4043bd2523fabbc619c5b747f"
+    },
+    {
+      "id": "pair_206",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/206.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/206.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999864450660888,
+      "points": 590191,
+      "objects": 9,
+      "coordinate_sha256": "1d9f392d404eab149ce6efbe4f0e600c926ca602fb46bc4a13bd4d5e548a4219"
+    },
+    {
+      "id": "pair_207",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/207.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/207.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9998849563510861,
+      "points": 591080,
+      "objects": 10,
+      "coordinate_sha256": "5df67ebdf4d335139e1d8c0fae22f80ecabd1d1f3b29048d6aa40957b7256732"
+    },
+    {
+      "id": "pair_208",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/208.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/208.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9855418561999922,
+      "points": 593783,
+      "objects": 9,
+      "coordinate_sha256": "da166e97c2f8e613d1af2ca8d23bbfc1528d7bec087a49a6c3922262b4698112"
+    },
+    {
+      "id": "pair_209",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/209.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/209.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9997548883818772,
+      "points": 595647,
+      "objects": 9,
+      "coordinate_sha256": "864435f1b11c2e5f515c693148e20cf3a3b16283098618b98f09775c6667e9fa"
+    },
+    {
+      "id": "pair_210",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/210.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/210.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999004491598922,
+      "points": 592662,
+      "objects": 9,
+      "coordinate_sha256": "c9150268fce098b4f43832a8a79d017ddbce5562fe8fd358b06d04f226718e5e"
+    },
+    {
+      "id": "pair_211",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/211.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/211.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9896683016492339,
+      "points": 594094,
+      "objects": 9,
+      "coordinate_sha256": "362b63ad15cf638e8acf4fb58b5674f6e4d248833a9edf73d3900b444d7465e5"
+    },
+    {
+      "id": "pair_212",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/212.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/212.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999966275177687,
+      "points": 593035,
+      "objects": 9,
+      "coordinate_sha256": "c7662b204cad451a499055cbed7d4cb53b2dbed6a2c5e4530dec7bfcf5e21a31"
+    },
+    {
+      "id": "pair_213",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/213.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/213.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9998197226761916,
+      "points": 593530,
+      "objects": 9,
+      "coordinate_sha256": "deda1dfcdcf51f2353afde1df117d7a7376e95d439256cb784df88aebef6db85"
+    },
+    {
+      "id": "pair_214",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/214.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/214.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9944771417386751,
+      "points": 590093,
+      "objects": 9,
+      "coordinate_sha256": "f9066b6d519822636b7182ff3de2092aa50b8edf178f6704229f3d70658333f9"
+    },
+    {
+      "id": "pair_215",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/215.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/215.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9991794134501596,
+      "points": 589822,
+      "objects": 9,
+      "coordinate_sha256": "5269ac34a46c6cae58d8b6e8565ebe40dd0092ea2753442273ded58308b251c4"
+    },
+    {
+      "id": "pair_216",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/216.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/216.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9995846605829332,
+      "points": 589879,
+      "objects": 8,
+      "coordinate_sha256": "5d2ba6a1da99ba40dc971b6e9c2e54921763b95cddbe58af5971a10c484a951b"
+    },
+    {
+      "id": "pair_217",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/217.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/217.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999983043978832,
+      "points": 589761,
+      "objects": 9,
+      "coordinate_sha256": "b7a985455531a753f1ea81b11818ef2720b10d78c47d137611a17cb47ebfb65a"
+    },
+    {
+      "id": "pair_218",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/218.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/218.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9998211661653134,
+      "points": 592729,
+      "objects": 9,
+      "coordinate_sha256": "c7a657556a3c6c84f7ba735a10bd216c2cc61835ef8a72e1b98a17f52036eddd"
+    },
+    {
+      "id": "pair_219",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/219.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/219.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999474784576965,
+      "points": 590234,
+      "objects": 9,
+      "coordinate_sha256": "ebfbb01f759f7d9f32b41fd1359f5a6aafef24fa0cbb351896c0e1d3bacc2028"
+    },
+    {
+      "id": "pair_220",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/220.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/220.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9974095945090867,
+      "points": 589483,
+      "objects": 9,
+      "coordinate_sha256": "7a1f110cc385165752f99b8a6215e8a9e6f35be4c07f3863fc375424561d16da"
+    },
+    {
+      "id": "pair_221",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/221.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/221.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9994413901066622,
+      "points": 588962,
+      "objects": 9,
+      "coordinate_sha256": "95948b741eb517789d4d24f1d4a32cf72463d5dbbf46ee1d42bb3c66c4e5fad6"
+    },
+    {
+      "id": "pair_222",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/222.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/222.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999932298859913,
+      "points": 590832,
+      "objects": 9,
+      "coordinate_sha256": "ba6d38c401bcf36ea1f62c8453bd968f575e11df35ae0c9df0cb067ec80f446f"
+    },
+    {
+      "id": "pair_223",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/223.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/223.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9995418222000619,
+      "points": 593656,
+      "objects": 9,
+      "coordinate_sha256": "b3272d2b265c0f047d1cc4a9d7f4cf7b22033f9429bf6b2e9536e4df88917558"
+    },
+    {
+      "id": "pair_224",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/224.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/224.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9996879554164193,
+      "points": 592864,
+      "objects": 9,
+      "coordinate_sha256": "71db4530da087ca11183608fb1833c69e3fa3bc0c8132dce9d18c2684c3fb0f8"
+    },
+    {
+      "id": "pair_225",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/225.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/225.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9990626820803391,
+      "points": 592115,
+      "objects": 9,
+      "coordinate_sha256": "3759c5d2697f439a7c7e577fc1f945e69f04f6af627990bb6989776a469921c9"
+    },
+    {
+      "id": "pair_227",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/227.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/227.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9989581070807994,
+      "points": 589312,
+      "objects": 9,
+      "coordinate_sha256": "86fe9476b88950ac91e4a872adde1e98d6291989a043fa4d1c53840b9ca0cffa"
+    },
+    {
+      "id": "pair_228",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/228.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/228.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999998307451445,
+      "points": 590825,
+      "objects": 9,
+      "coordinate_sha256": "895a7cd565059e665a5d52f570a751d05e9a832ab2f6730a006c4b51fa0b9a1f"
+    },
+    {
+      "id": "pair_229",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/229.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/229.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999915293575526,
+      "points": 590274,
+      "objects": 9,
+      "coordinate_sha256": "798f4b315fe1ce92ec60f42dcf5e8346df363f3a4cf5cf7a2297638e9b488faa"
+    },
+    {
+      "id": "pair_230",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/230.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/230.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9998360192922457,
+      "points": 591533,
+      "objects": 9,
+      "coordinate_sha256": "80d6364d82f7422d68723cc5b1740d8ecccb6687f1af046ee73c30053a4c9440"
+    },
+    {
+      "id": "pair_231",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/231.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/231.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9998165502012899,
+      "points": 594168,
+      "objects": 9,
+      "coordinate_sha256": "f4d16e9017349208837933cdd5406af3e6ae139321bebc6d2fe322edb26f7874"
+    },
+    {
+      "id": "pair_232",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/232.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/232.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.999655111784357,
+      "points": 591496,
+      "objects": 9,
+      "coordinate_sha256": "82ae4488cc5e98caed9d9976bab32217996add2bc4b87264e340b5093f5038f7"
+    },
+    {
+      "id": "pair_233",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/233.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/233.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999408281022558,
+      "points": 591497,
+      "objects": 9,
+      "coordinate_sha256": "33fa9a86007f97ba230bc4e515208a26a39c32448c37b25a0bf775197992b228"
+    },
+    {
+      "id": "pair_234",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/234.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/234.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999561048823189,
+      "points": 592321,
+      "objects": 9,
+      "coordinate_sha256": "1451d27abd5d995a1db3cb8dcac15d4dc7cd68f6545296c2cff62f646fb2bf92"
+    },
+    {
+      "id": "pair_235",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/235.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/235.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9997907045828945,
+      "points": 592464,
+      "objects": 9,
+      "coordinate_sha256": "4415418abceb39a135b297ad0b46078044d05747bfb0e6ca15facadf6729f92e"
+    },
+    {
+      "id": "pair_236",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/236.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/236.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.989011399167669,
+      "points": 589429,
+      "objects": 9,
+      "coordinate_sha256": "91afd05b3133a43d98c89cda3d899b4634e45cbac8eadbe65db001069bd211c2"
+    },
+    {
+      "id": "pair_237",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/237.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/237.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9999693091489427,
+      "points": 586494,
+      "objects": 9,
+      "coordinate_sha256": "96783e7074fcec6e1ab210bd257df80f08308da37476ff6a4fcd50ad18461a57"
+    },
+    {
+      "id": "pair_238",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/238.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/238.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 590347,
+      "objects": 9,
+      "coordinate_sha256": "a4794a93a674dc24c2a82801a7fe3d98631cc594fa0da408d03a8253960cdc6d"
+    },
+    {
+      "id": "pair_239",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/239.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/239.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9990701771557209,
+      "points": 592586,
+      "objects": 9,
+      "coordinate_sha256": "028f88c39716303dcd4314540c2399f0397575b4451616158204f4ac844d1950"
+    },
+    {
+      "id": "pair_240",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/240.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/240.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9997449836941561,
+      "points": 592119,
+      "objects": 9,
+      "coordinate_sha256": "4bcf7c896628a01fcef93ff3ef52dfef9a42681b2253a07cf072271b358b53c4"
+    },
+    {
+      "id": "pair_241",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/241.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/241.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9994477822936915,
+      "points": 588536,
+      "objects": 9,
+      "coordinate_sha256": "9156824220909f13f9040edb8ac5bd31020b244f0e5e0c92daeb2698595df28d"
+    },
+    {
+      "id": "pair_242",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/242.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/242.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 0.9996039811738743,
+      "points": 590881,
+      "objects": 9,
+      "coordinate_sha256": "0cdc589fef0134861bdfb479983a0d141e8c64a70d847917fc4e4d165ca5d51a"
+    },
+    {
+      "id": "pair_243",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/243.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/243.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 592112,
+      "objects": 9,
+      "coordinate_sha256": "7735b79c60dc338018229ed19577d17e1fe73d3d34f5f17e5ebefc982a03202f"
+    },
+    {
+      "id": "pair_244",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/244.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/244.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 590871,
+      "objects": 9,
+      "coordinate_sha256": "57a93a05aaaba08cba1d6260a2c51c5f8a3d3d65e79731e8c3f8d074d40b570f"
+    },
+    {
+      "id": "pair_245",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/245.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/245.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593764,
+      "objects": 7,
+      "coordinate_sha256": "872455f5e5a3c511338b25de0a1d2235782a8fcc7dc780a8bb2355ee162f4725"
+    },
+    {
+      "id": "pair_246",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/246.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/246.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594415,
+      "objects": 7,
+      "coordinate_sha256": "6162b207f6d2a428d295265222947847854678a274b55b3e471ebe39a838ffba"
+    },
+    {
+      "id": "pair_247",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/247.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/247.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594540,
+      "objects": 7,
+      "coordinate_sha256": "ece693f76fe5e817280e43372fb743339354cebc5898aef81fa81178c0634baf"
+    },
+    {
+      "id": "pair_248",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/248.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/248.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594339,
+      "objects": 7,
+      "coordinate_sha256": "f8e1d348280d5e9fbc2f155592db60f19307f5803aa01da8f4ac3499b870e559"
+    },
+    {
+      "id": "pair_249",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/249.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/249.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593794,
+      "objects": 7,
+      "coordinate_sha256": "c0fede99e3f2f4771d3356d788295636f256ef40224448bef80f8c4c02a582f1"
+    },
+    {
+      "id": "pair_250",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/250.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/250.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593944,
+      "objects": 7,
+      "coordinate_sha256": "a412573640752d784a67ee4ff5b13bca2730392681a8fa75077c9a509cd1d482"
+    },
+    {
+      "id": "pair_251",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/251.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/251.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594205,
+      "objects": 7,
+      "coordinate_sha256": "1cfaebf2320626579b5941188eba95c212aca450ac7d729206b705a2ab888873"
+    },
+    {
+      "id": "pair_252",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/252.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/252.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594973,
+      "objects": 7,
+      "coordinate_sha256": "f76729a3b56f49497ec1f8cbe53a8af05ebe22d4fbcf0cb79265058f854b3438"
+    },
+    {
+      "id": "pair_253",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/253.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/253.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594786,
+      "objects": 7,
+      "coordinate_sha256": "3a0cb75d5f889ab0fd2ca36f264b48f523f4dd76af1d388dfaab527c0ae26af6"
+    },
+    {
+      "id": "pair_254",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/254.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/254.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594147,
+      "objects": 7,
+      "coordinate_sha256": "cd023935c047e13568fb9df71d7859b45c0ca86d792bd0abc0d146b9d41894b7"
+    },
+    {
+      "id": "pair_255",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/255.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/255.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593388,
+      "objects": 7,
+      "coordinate_sha256": "49dbf487dd3669b61e14abaf7efe8fceca5d5cd1eab312c7abc8856a09cc7dfc"
+    },
+    {
+      "id": "pair_256",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/256.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/256.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 589556,
+      "objects": 7,
+      "coordinate_sha256": "b3de1b2ddfaf2891ff81367ec6b9ec7385997ff016b2c29f528763ae77236c0e"
+    },
+    {
+      "id": "pair_257",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/257.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/257.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 592218,
+      "objects": 7,
+      "coordinate_sha256": "cad1626ad465a7cc619654076549c204d92a3c63e1c1abff217421503b885224"
+    },
+    {
+      "id": "pair_258",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/258.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/258.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594600,
+      "objects": 7,
+      "coordinate_sha256": "352595f5a82dcfab096f532fad508c18d93f9a4693847a2197cdc3bf5bb6d58d"
+    },
+    {
+      "id": "pair_259",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/259.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/259.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594489,
+      "objects": 7,
+      "coordinate_sha256": "f11d5e51a4654ad6b48366e4cca8045dafa050bdb0abd3a271dc5eaa495e8b27"
+    },
+    {
+      "id": "pair_260",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/260.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/260.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593964,
+      "objects": 7,
+      "coordinate_sha256": "69f7d98a6828e163f33f312827ba6c282f8b76e3dddba69684ec2ee4a0af3604"
+    },
+    {
+      "id": "pair_261",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/261.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/261.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594001,
+      "objects": 7,
+      "coordinate_sha256": "cf76c69c52a9b2e226cca877c10a0653ce77e22cb4cfe8f75fa5f74baee2dc25"
+    },
+    {
+      "id": "pair_262",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/262.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/262.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 592130,
+      "objects": 7,
+      "coordinate_sha256": "cce5efe0587a3d0b9a20165157377aeedb5595745adf797068a16f6972459eb5"
+    },
+    {
+      "id": "pair_263",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/263.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/263.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593597,
+      "objects": 7,
+      "coordinate_sha256": "1561942ef7dc51eeb8afe371226e871862e7beb97926e671fded80f025cdb37c"
+    },
+    {
+      "id": "pair_264",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/264.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/264.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594185,
+      "objects": 7,
+      "coordinate_sha256": "ca1b8f5146b888a05188ac337811b54649fe2f11ddd97cb0dd9b629ec75d0f26"
+    },
+    {
+      "id": "pair_265",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/265.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/265.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593838,
+      "objects": 7,
+      "coordinate_sha256": "4bb48bcf6b105c952299bb4e6515919c0fa30255f8a84144b898436c44b572a6"
+    },
+    {
+      "id": "pair_266",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/266.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/266.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 592248,
+      "objects": 7,
+      "coordinate_sha256": "f2f8cb2d2c8c49d15641614e08ff47f56c7579fc0c11bc78a041cb47687b2d2b"
+    },
+    {
+      "id": "pair_267",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/267.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/267.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593266,
+      "objects": 7,
+      "coordinate_sha256": "e107a69cdfd60b3c3f011135a5da46b95bc47bf687b2871c010800e2beca92d4"
+    },
+    {
+      "id": "pair_268",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/268.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/268.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 588949,
+      "objects": 8,
+      "coordinate_sha256": "7d571822b231c05a3114179b7610677df1de46ffb2f6fc0e5054b5b31ee780c1"
+    },
+    {
+      "id": "pair_270",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/270.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/270.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 589747,
+      "objects": 8,
+      "coordinate_sha256": "028526f9aaa04aa5218629793cea6fc7f61425b0069bcf4e8494ed79981d8008"
+    },
+    {
+      "id": "pair_271",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/271.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/271.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594213,
+      "objects": 6,
+      "coordinate_sha256": "62d2ca6a91febeb5ff7fdbda1d8b03658c1e801fc2bd00207b50a158dab36c8a"
+    },
+    {
+      "id": "pair_272",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/272.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/272.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593751,
+      "objects": 6,
+      "coordinate_sha256": "f6bfa595c54e9171b358b9f6532a3946b13bed2daee537eebdf63d38916f2398"
+    },
+    {
+      "id": "pair_273",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/273.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/273.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594080,
+      "objects": 6,
+      "coordinate_sha256": "7eca45141c0bfc0d1cca079988dccdf4afd1ef49a0702e91c560e26b2ebcd550"
+    },
+    {
+      "id": "pair_274",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/274.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/274.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593899,
+      "objects": 6,
+      "coordinate_sha256": "e29c1534598f4c7859cc9faf58a505fe6d15450aa99d0ca4ca80f11ee23acdcd"
+    },
+    {
+      "id": "pair_275",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/275.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/275.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594287,
+      "objects": 6,
+      "coordinate_sha256": "15c162aefe6edad257c43636bd4f3a03ee46b6d6c683411233fc0dd3fe77e18f"
+    },
+    {
+      "id": "pair_276",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/276.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/276.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 592998,
+      "objects": 6,
+      "coordinate_sha256": "55a4eb7639b4d23e79387d7f5f85ef65039c157555d6821166a2a4e81ae47cba"
+    },
+    {
+      "id": "pair_277",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/277.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/277.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593530,
+      "objects": 6,
+      "coordinate_sha256": "df0a83d5f012f89229325afb2b1c3f51e93c9b5350588ae68c94b824d2a7981c"
+    },
+    {
+      "id": "pair_278",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/278.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/278.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594062,
+      "objects": 6,
+      "coordinate_sha256": "869aae6a35746782d97b15ba1847e321317ef5f3279d82cea53fda86ecdfd1e4"
+    },
+    {
+      "id": "pair_279",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/279.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/279.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594455,
+      "objects": 7,
+      "coordinate_sha256": "8a01250194aef5bc2419a85dfea8bfecdbd48f3f71185be96451d14a75238476"
+    },
+    {
+      "id": "pair_280",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/280.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/280.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 594416,
+      "objects": 7,
+      "coordinate_sha256": "d30bcc8cd90ef55a361adb187f70f1b6d2599b3272972c8a64715445c312d875"
+    },
+    {
+      "id": "pair_281",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/281.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/281.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 592894,
+      "objects": 7,
+      "coordinate_sha256": "3b9bf957d3fc468ecbb88610403c44bd820ce4fb4589713b4576bc76bd8cea49"
+    },
+    {
+      "id": "pair_282",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/282.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/282.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 593351,
+      "objects": 7,
+      "coordinate_sha256": "c5e5a29ad6cc242635741dc0b92c083eaef8dd750707aa07c391e13606651f03"
+    },
+    {
+      "id": "pair_283",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/283.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/283.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 592869,
+      "objects": 7,
+      "coordinate_sha256": "6990f0604c0b9ec0f9688f3a8f41be379f88395058a1e06f4e556f7d82e6d67f"
+    },
+    {
+      "id": "pair_284",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/284.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/284.ply",
+      "label_source": "scalar_instance_label",
+      "split": "train",
+      "match_fraction": 1.0,
+      "points": 590984,
+      "objects": 7,
+      "coordinate_sha256": "8c34ab0424dc06f237bcff59e023f5e58b5e09fa398da0bb5240b6ff6a9f05dc"
+    },
+    {
+      "id": "pair_285",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/285.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/285.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 594497,
+      "objects": 7,
+      "coordinate_sha256": "8f0a87f5fe86c591a3d8aa3ebba829e8249fbe9a934fbc5e9703117d5a52e5a7"
+    },
+    {
+      "id": "pair_286",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/286.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/286.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 592056,
+      "objects": 7,
+      "coordinate_sha256": "dd455ac5b961226c60cd02aa58e8878fdc58d250c4e6c140ba9c38317d46a53d"
+    },
+    {
+      "id": "pair_287",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/287.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/287.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 592847,
+      "objects": 7,
+      "coordinate_sha256": "26e68a321bcf667ee699571ca2a5e2c27935ff30b24281b74629eecab1b408c0"
+    },
+    {
+      "id": "pair_288",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/288.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/288.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 592663,
+      "objects": 8,
+      "coordinate_sha256": "0055e2d734d661b75e6126f4e5639e0ecdecdad39371f8a7823875c4348d2b66"
+    },
+    {
+      "id": "pair_289",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/289.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/289.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 593429,
+      "objects": 7,
+      "coordinate_sha256": "6367fd1a277a7430d4a9361f2b7c60a450d97abf2d51d4f55839b37fc2e3fbbe"
+    },
+    {
+      "id": "pair_290",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/290.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/290.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 595119,
+      "objects": 7,
+      "coordinate_sha256": "9b698364ce6ffe56ece3f9cc5ba0b8e0b4deae888d3644274d2b8ea1f8654e09"
+    },
+    {
+      "id": "pair_291",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/291.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/291.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 591918,
+      "objects": 7,
+      "coordinate_sha256": "fe71d567f9bd1283fa064c5ac9ec312d0dde6c96b887200f7bb306fa5de29753"
+    },
+    {
+      "id": "pair_292",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/292.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/292.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 592962,
+      "objects": 7,
+      "coordinate_sha256": "52b10e765e4d1c8969d025ce81ae0bd1c5987e89e205ab6809a127bb89bd628e"
+    },
+    {
+      "id": "pair_293",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/293.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/293.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 593427,
+      "objects": 7,
+      "coordinate_sha256": "a3ba6bde586e73d9cc46eb60a8332abdd06d2db0cb26957c464447842aeab142"
+    },
+    {
+      "id": "pair_294",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/294.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/294.ply",
+      "label_source": "scalar_instance_label",
+      "split": "validation",
+      "match_fraction": 1.0,
+      "points": 592438,
+      "objects": 8,
+      "coordinate_sha256": "6bd78289c97f311ad128c4f1b1657695c8a4206cc097991a402a023e1477adf9"
+    },
+    {
+      "id": "pair_295",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/295.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/295.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 592049,
+      "objects": 8,
+      "coordinate_sha256": "814f9c077371459d135fa619de9109ffe16b520a144217efc042a2cb59013fc0"
+    },
+    {
+      "id": "pair_296",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/296.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/296.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 592673,
+      "objects": 8,
+      "coordinate_sha256": "583257f73d87f82632d862883cc740a00dccf85240c3168d18cb3ffb73b1e19b"
+    },
+    {
+      "id": "pair_297",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/297.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/297.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 592091,
+      "objects": 8,
+      "coordinate_sha256": "7e72017f6fdbb8e353aaeedfbc91dde0930f795b3cb6a03355ea863f7cedc378"
+    },
+    {
+      "id": "pair_298",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/298.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/298.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 594283,
+      "objects": 8,
+      "coordinate_sha256": "0d0fe03aa724f29a6e036183a5e8c73b073ec841f97c050a31ec95e8d56a03dd"
+    },
+    {
+      "id": "pair_299",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/299.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/299.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 593353,
+      "objects": 8,
+      "coordinate_sha256": "b7d9a67b71bb487142f91bdf715715b2addf8b750b67a49bc112e08aa63acfab"
+    },
+    {
+      "id": "pair_300",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/300.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/300.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 593876,
+      "objects": 8,
+      "coordinate_sha256": "59d71a6496bcd1ef860314f9ebd90bd62ae375584dc20a05686c71b52f188802"
+    },
+    {
+      "id": "pair_301",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/301.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/301.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 591636,
+      "objects": 8,
+      "coordinate_sha256": "80685bbd3bba8d907a82de031e2cce9de182f2cba4a32c1202f5c8293dd999ef"
+    },
+    {
+      "id": "pair_302",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/302.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/302.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 593517,
+      "objects": 8,
+      "coordinate_sha256": "9ec52a968330e4c33ebdd2d99ec35f77e6edc4fe7afacbd89990f60e8313834d"
+    },
+    {
+      "id": "pair_303",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/303.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/303.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 591857,
+      "objects": 8,
+      "coordinate_sha256": "5fe7dd044ddcea391b607f24e5f93b16e4103f8d9b65a16aafa7340b07e3fc68"
+    },
+    {
+      "id": "pair_304",
+      "raw": "/Users/hwangjaeyeon/Desktop/before/304.ply",
+      "truth": "/Users/hwangjaeyeon/Desktop/after/304.ply",
+      "label_source": "scalar_instance_label",
+      "split": "test",
+      "match_fraction": 1.0,
+      "points": 592652,
+      "objects": 8,
+      "coordinate_sha256": "2e05e8fc492abf22af084e96e6b18d17ac6178c201284b6a0c9e23e5958bddfc"
+    }
+  ],
+  "excluded": [
+    {
+      "file": "113.ply",
+      "reason": "Missing or ambiguous instance label: ['scalar__instance_label', 'scalar_instance_label']"
+    },
+    {
+      "file": "134.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "172.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "173.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "174.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "175.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "176.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "177.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "178.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "179.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "180.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "181.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "182.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "183.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "184.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "185.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "186.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "187.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "188.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "189.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "190.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "191.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "192.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "193.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "194.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "195.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "196.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "197.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "198.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "199.ply",
+      "reason": "Missing or ambiguous instance label: []"
+    },
+    {
+      "file": "226.ply",
+      "reason": "[Errno 2] No such file or directory: '/Users/hwangjaeyeon/Desktop/after/226.ply'"
+    },
+    {
+      "file": "269.ply",
+      "reason": "[Errno 2] No such file or directory: '/Users/hwangjaeyeon/Desktop/after/269.ply'"
+    }
+  ],
+  "note": "Previous splits preserved by filename. Final 10 new files test, preceding 10 validation. Related scans may remain correlated."
+}

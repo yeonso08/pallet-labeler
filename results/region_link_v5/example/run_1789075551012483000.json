@@ -1,0 +1,16 @@
+[
+  {
+    "file": "/Users/hwangjaeyeon/Desktop/01_original/401.ply",
+    "output": "results/region_link_v5/example/401_labeled.ply",
+    "seconds": 0.42,
+    "objects": 9,
+    "review_fraction": 0.18170671164989471,
+    "split": 0.03,
+    "min_cells": 150,
+    "hole_fill_probability": 0.5,
+    "min_seed_cells": 150,
+    "seed_smoothing": 1,
+    "merged_pieces": 6,
+    "region_link_threshold": 0.6
+  }
+]

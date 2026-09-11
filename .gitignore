@@ -11,3 +11,12 @@ env/
 
 # OS
 .DS_Store
+
+# Training cache and one-off run reports, rebuilt by the scripts
+results/*/cache/
+results/batch_*.json
+
+# Experiment candidates kept locally; not wired into model_config.json
+results/segmentation_v5/
+results/segmentation_v5_smoothing/
+results/corrected7_v5/
