@@ -11,6 +11,12 @@ def main():
     root=tk.Tk()
     try:
         app=App(root);root.update()
+        # The figure has to keep following its widget: binding <Configure>
+        # without add='+' takes the backend's own resize handler away and the
+        # drawing freezes at its starting size inside a larger canvas.
+        widget=app.canvas.get_tk_widget()
+        assert app.canvas.get_width_height()==(widget.winfo_width(),widget.winfo_height()),(
+            app.canvas.get_width_height(),widget.winfo_width(),widget.winfo_height())
         path=Path(__file__).resolve().parent/'results/region_link_v5/example/401_labeled.ply'
         app.ply,app.xyz=read_cloud(path);app.current=path
         app.labels=app.ply['vertex'].data[LABEL].astype(np.int32)

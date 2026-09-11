@@ -120,7 +120,9 @@ class App:
   self.canvas=FigureCanvasTkAgg(self.fig,master=right);self.canvas.get_tk_widget().pack(fill='both',expand=True)
   self.toolbar=Toolbar(self.canvas,right);self.lasso=None
   theme.style_toolbar(self.toolbar,fonts)
-  self.canvas.get_tk_widget().bind('<Configure>',self.on_resize)
+  # add='+', or this replaces the backend's own handler and the figure stops
+  # following the widget.
+  self.canvas.get_tk_widget().bind('<Configure>',self.on_resize,add='+')
   self.canvas.mpl_connect('scroll_event',self.zoom)
   self.canvas.mpl_connect('button_press_event',self.start_move)
   self.canvas.mpl_connect('motion_notify_event',self.pan_move)
