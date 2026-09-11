@@ -2,6 +2,7 @@
 from pathlib import Path
 import tkinter as tk
 import numpy as np
+from matplotlib.backend_bases import MouseEvent,MouseButton
 from app import App
 from engine import read_cloud,LABEL
 
@@ -60,6 +61,22 @@ def main():
         assert app.view3d and app.ax.name=='3d'
         assert app.view_buttons['3D'].cget('style')=='On.TButton'
         assert app.view_buttons['2D'].cget('style')=='Off.TButton'
+        # A drag selects in 3D too, and the projection has to land on the canvas:
+        # points are picked through the projection, not the 3D axes' own limits.
+        app.cancel_settle();app.settle();root.update()
+        pixels=app.ax.transData.transform(app.screen_xy())
+        width,height=app.canvas.get_width_height()
+        assert pixels.min(0).min()>-width and pixels.max(0).max()<2*max(width,height)
+        lo=pixels[app.labels==3].min(0);hi=pixels[app.labels==3].max(0)
+        corners=[(lo[0]-2,lo[1]-2),(hi[0]+2,lo[1]-2),(hi[0]+2,hi[1]+2),(lo[0]-2,hi[1]+2)]
+        MouseEvent('button_press_event',app.canvas,*corners[0],button=MouseButton.LEFT)._process()
+        for x,y in corners[1:]:
+            MouseEvent('motion_notify_event',app.canvas,x,y,button=MouseButton.LEFT)._process()
+        assert app.lasso._selection_artist.get_visible()
+        MouseEvent('button_release_event',app.canvas,*corners[0],button=MouseButton.LEFT)._process()
+        root.update()
+        assert app.selected is not None and app.selected.sum()>=(app.labels==3).sum()
+        app.clear_selection();app.set_direction('3D');root.update()
         app.set_direction('2D');root.update()
         assert not app.view3d and app.ax.name!='3d'
         assert app.view_buttons['2D'].cget('style')=='On.TButton'
@@ -84,7 +101,7 @@ def main():
         root.event_generate('<Key-2>');root.update()
         assert app.direction=='위'
         app.cancel_settle()
-        print('Tk render, focused XZ data, height lasso, kept selection, remembered zoom, shortcuts and v5 model selection OK')
+        print('Tk render, focused XZ data, height lasso, kept selection, 3D lasso, remembered zoom, shortcuts and v5 model selection OK')
     finally:
         root.destroy()
 

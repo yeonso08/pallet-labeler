@@ -283,7 +283,8 @@ class App:
  def view_key(self):return '3D' if self.view3d else self.direction
  def remember_view(self):
   """Keep this plane's zoom so coming back to it looks the way it was left."""
-  if self.labels is None or (getattr(self.ax,'name','')=='3d')!=self.view3d:return
+  # Nothing to remember from a canvas that is not showing the cloud.
+  if self.full_artist is None or (getattr(self.ax,'name','')=='3d')!=self.view3d:return
   if self.view3d:self.views['3D']=((self.ax.elev,self.ax.azim,self.ax.roll),(self.ax.get_xlim(),self.ax.get_ylim(),self.ax.get_zlim()))
   else:self.views[self.direction]=(None,(self.ax.get_xlim(),self.ax.get_ylim()))
  def set_direction(self,name):

@@ -22,7 +22,7 @@ class SelectionTests(unittest.TestCase):
         a.selected=None;a.focus=None;a.side=False;a.view3d=False;a.busy=False
         a.pick_highlight=False;a.press_key=None;a.show_pallet=Value(True);a.status=Value('')
         a.label=Value('4');a.labels_version=0;a.undo=[];a.reset_view=False
-        a.direction='위';a.isolated=False;a.views={}
+        a.direction='위';a.isolated=False;a.views={};a.full_artist=None
         a.fig=Figure(figsize=(6,4));canvas=FigureCanvasAgg(a.fig);a.ax=a.fig.add_subplot()
         a.ax.set_xlim(-2,2);a.ax.set_ylim(-2,12);canvas.draw()
         a.draw=Mock()
