@@ -22,6 +22,7 @@ class SelectionTests(unittest.TestCase):
         a.selected=None;a.focus=None;a.side=False;a.view3d=False;a.busy=False
         a.pick_highlight=False;a.press_key=None;a.show_pallet=Value(True);a.status=Value('')
         a.label=Value('4');a.labels_version=0;a.undo=[];a.reset_view=False
+        a.direction='위';a.isolated=False;a.views={}
         a.fig=Figure(figsize=(6,4));canvas=FigureCanvasAgg(a.fig);a.ax=a.fig.add_subplot()
         a.ax.set_xlim(-2,2);a.ax.set_ylim(-2,12);canvas.draw()
         a.draw=Mock()
@@ -85,12 +86,32 @@ class SelectionTests(unittest.TestCase):
         a=self.clipping();a.selected=a.labels==2
         a.assign();np.testing.assert_array_equal(a.labels,[1,4,3,2,3])
 
-    def test_direction_switches_plane_and_keeps_isolation(self):
+    def test_direction_switches_plane_and_leaves_isolation_alone(self):
         a=self.a;a.focus=2
         for name,plane in [('위',(0,1)),('앞',(0,2)),('옆',(1,2))]:
-            a.set_direction(name);self.assertTrue(a.isolated)
+            a.set_direction(name);self.assertFalse(a.isolated)
             self.assertEqual(a.plane(),plane)
-        a.set_direction('3D');self.assertTrue(a.view3d);self.assertTrue(a.isolated)
+        a.set_direction('3D');self.assertTrue(a.view3d);self.assertFalse(a.isolated)
+        a.isolated=True
+        for name in ('위','앞','옆','3D','2D'):
+            a.set_direction(name);self.assertTrue(a.isolated)
+
+    def test_view_changes_keep_the_selection(self):
+        a=self.a;a.focus=2;a.selected=a.labels==2;a.pick_highlight=True
+        for name in ('앞','옆','3D','2D','위'):
+            a.set_direction(name)
+            self.assertIsNotNone(a.selected);self.assertTrue(a.pick_highlight)
+        chosen=self.clipping();chosen.selected=chosen.labels==2
+        chosen.clip_low.set(10.);chosen.apply_clip()
+        np.testing.assert_array_equal(chosen.selected,chosen.labels==2)
+
+    def test_hidden_points_are_reported_not_applied(self):
+        a=self.clipping();a.selected=a.labels>0
+        visible=a.visible_mask()
+        a.assign()
+        self.assertIn('숨겨진',a.status.get())
+        np.testing.assert_array_equal(a.labels[visible],[4])
+        np.testing.assert_array_equal(a.labels[~visible],[1,3,2,3])
 
     def test_2d_returns_to_the_plane_used_before_3d(self):
         a=self.a;a.focus=None;a.isolated=False

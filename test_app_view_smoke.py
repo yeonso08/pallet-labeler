@@ -15,8 +15,10 @@ def main():
         app.labels=app.ply['vertex'].data[LABEL].astype(np.int32)
         app.review=np.zeros(len(app.labels));app.labels_version+=1
         app.focus=3;app.selected=app.labels==3;app.pick_highlight=True
+        # Direction no longer isolates on its own; its button does.
+        app.toggle_isolation();root.update()
         app.side_view();root.update();app.cancel_settle();app.settle()
-        assert not app.view3d and app.side
+        assert not app.view3d and app.side and app.isolated
         expected=app.xyz[app.labels==3][:,[0,2]]
         displayed=np.asarray(app.full_artist.get_offsets())
         assert len(displayed)==len(expected)
@@ -35,6 +37,8 @@ def main():
         for name,columns in [('옆',[1,2]),('위',[0,1])]:
             app.set_direction(name);root.update()
             np.testing.assert_allclose(np.asarray(app.full_artist.get_offsets()),app.xyz[app.labels==3][:,columns])
+            # Turning the cloud keeps what was chosen.
+            assert app.selected is not None and app.isolated
         app.set_direction('앞');root.update()
         app.clip_enabled.set(True);app.change_clip_axis()
         app.clip_low.set(25.);app.clip_high.set(75.);app.apply_clip();root.update()
@@ -59,9 +63,28 @@ def main():
         app.set_direction('2D');root.update()
         assert not app.view3d and app.ax.name!='3d'
         assert app.view_buttons['2D'].cget('style')=='On.TButton'
-        assert app.view_buttons['앞'].cget('style')=='On.TButton'
+        assert app.view_buttons['위'].cget('style')=='On.TButton'
+        # A plane remembers the zoom it was left at.
+        app.set_direction('앞');root.update()
+        app.ax.set_xlim(-11.,13.);app.ax.set_ylim(-17.,19.)
+        app.set_direction('위');root.update()
+        assert app.ax.get_xlim()!=(-11.,13.)
+        app.set_direction('앞');root.update()
+        assert app.ax.get_xlim()==(-11.,13.) and app.ax.get_ylim()==(-17.,19.)
+        app.fit_view();root.update()
+        assert app.ax.get_xlim()!=(-11.,13.)
+        # Keys reach the view, except while a number is being typed.
+        root.focus_force();root.update()
+        for key,plane in (('2','앞'),('3','옆'),('1','위')):
+            root.event_generate(f'<Key-{key}>');root.update()
+            assert app.direction==plane,(key,app.direction)
+        root.event_generate('<Key-Tab>');root.update();assert app.view3d
+        root.event_generate('<Key-Tab>');root.update();assert not app.view3d
+        app.label_entry.focus_set();root.update()
+        root.event_generate('<Key-2>');root.update()
+        assert app.direction=='위'
         app.cancel_settle()
-        print('Tk render, focused XZ data, height lasso, clear, 2D/3D return and v5 model selection OK')
+        print('Tk render, focused XZ data, height lasso, kept selection, remembered zoom, shortcuts and v5 model selection OK')
     finally:
         root.destroy()
 
