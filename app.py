@@ -35,6 +35,8 @@ class App:
   self.win=win;win.title('Pallet Labeler 2.2');win.geometry('1250x850')
   self.jobs=queue.Queue();self.busy=False;self.ply=None;self.labels=None;self.selected=None;self.current=None;self.model=None
   self.files=[];self.undo=[];self.view3d=True;self.reset_view=True
+  self.focus=None;self.side=False;self.pick_highlight=False
+  self.isolated=False;self.direction='위';self.clip_bounds=None;self.clip_timer=None
   self.full_artist=None;self.lod_artist=None;self.moving=False;self.settle_timer=None;self.labels_version=0;self.centers=None
   self.press_key=None;self.pan_from=None
   config_path=ROOT/'model_config.json'
@@ -78,7 +80,6 @@ class App:
   ttk.Button(controls,text='적용',command=self.assign).pack(side='left',padx=3)
   ttk.Button(controls,text='새 물체로 분리',command=self.new_object).pack(side='left')
   ttk.Button(controls,text='되돌리기',command=self.rollback).pack(side='left',padx=3)
-  ttk.Button(controls,text='2D / 3D',command=self.toggle).pack(side='left')
   ttk.Button(controls,text='수정 결과 저장',style='Accent.TButton',command=self.save).pack(side='right')
   display=ttk.Frame(right);display.pack(fill='x',pady=5)
   self.color_mode=tk.StringVar(value='원본 색상');self.density=tk.StringVar(value='촘촘하게');self.point_size=tk.DoubleVar(value=2.0);self.show_pallet=tk.BooleanVar(value=True);self.show_numbers=tk.BooleanVar(value=True)
@@ -90,7 +91,28 @@ class App:
   size=theme.slider(display,self.point_size,.5,5,.1,length=75);size.pack(side='left');size.bind('<ButtonRelease-1>',lambda _:self.draw())
   ttk.Button(display,text='화면 맞춤',command=self.fit_view).pack(side='right')
   ttk.Button(display,text='선택 해제',command=self.clear_selection).pack(side='right',padx=4)
-  ttk.Label(right,text='왼쪽 드래그: 영역 선택  ·  왼쪽 클릭: 물체 선택  ·  Shift: 추가, Alt: 빼기  ·  오른쪽 드래그: 3D 회전 / 2D 이동  ·  휠 누르고 드래그: 이동  ·  Esc: 해제',style='Muted.TLabel').pack(anchor='w')
+  edit=ttk.Frame(right);edit.pack(fill='x',pady=(2,4))
+  self.isolate_button=ttk.Button(edit,text='선택 부재만 보기',command=self.toggle_isolation);self.isolate_button.pack(side='left')
+  self.view_buttons={}
+  for name in ('2D','위','앞','옆','3D'):
+   button=ttk.Button(edit,text=name,command=lambda n=name:self.set_direction(n),width=4);button.pack(side='left',padx=2);self.view_buttons[name]=button
+  self.stretch=tk.BooleanVar(value=True)
+  ttk.Checkbutton(edit,text='두께 확대',variable=self.stretch,command=self.draw).pack(side='left',padx=4)
+  self.scope_status=tk.StringVar(value='부재를 클릭하세요')
+  ttk.Label(edit,textvariable=self.scope_status,style='Muted.TLabel').pack(side='left',padx=4)
+  clip=ttk.Frame(right);clip.pack(fill='x',pady=(0,4))
+  self.clip_enabled=tk.BooleanVar(value=False);self.clip_axis=tk.StringVar(value='높이 Z')
+  self.clip_low=tk.DoubleVar(value=0.);self.clip_high=tk.DoubleVar(value=100.)
+  ttk.Checkbutton(clip,text='구간 좁히기',variable=self.clip_enabled,command=self.change_clip_axis).pack(side='left')
+  combo=ttk.Combobox(clip,textvariable=self.clip_axis,values=('높이 Z','깊이 Y','가로 X'),state='readonly',width=7);combo.pack(side='left');combo.bind('<<ComboboxSelected>>',self.change_clip_axis)
+  self.clip_scales=[]
+  for name,var in (('시작',self.clip_low),('끝',self.clip_high)):
+   ttk.Label(clip,text=name,style='Muted.TLabel').pack(side='left',padx=(5,0))
+   slider=ttk.Scale(clip,from_=0,to=100,variable=var,length=100,command=self.queue_clip);slider.pack(side='left');self.clip_scales.append(slider)
+  self.clip_status=tk.StringVar(value='전체 구간')
+  ttk.Label(clip,textvariable=self.clip_status,style='Muted.TLabel').pack(side='left',padx=4)
+  ttk.Button(clip,text='구간 초기화',command=self.reset_clip).pack(side='right')
+  ttk.Label(right,text='부재 클릭 → 방향 선택 → 구간 좁히기 → 드래그 선택 · 숨긴 구간은 선택/수정에서 제외\n2D는 마지막에 보던 평면으로 · Shift: 추가 · Alt: 빼기 · 오른쪽 드래그: 회전/이동 · Esc: 전체 보기',style='Muted.TLabel').pack(anchor='w')
   self.fig=Figure(figsize=(8,6),facecolor=BACKGROUND);self.ax=self.fig.add_subplot(111)
   self.canvas=FigureCanvasTkAgg(self.fig,master=right);self.canvas.get_tk_widget().pack(fill='both',expand=True)
   self.toolbar=Toolbar(self.canvas,right);self.lasso=None
@@ -140,6 +162,8 @@ class App:
  def close_current(self):
   """Forget the open cloud so the canvas matches the list again."""
   self.current=self.ply=self.xyz=self.labels=self.review=self.info=None
+  self.focus=None;self.side=False;self.pick_highlight=False
+  self.isolated=False;self.reset_clip(False)
   self.selected=None;self.undo=[];self.centers=None;self.labels_version+=1;self.reset_view=True
   self.draw()
  def choose_out(self):
@@ -201,13 +225,72 @@ class App:
     elif kind=='status':self.status.set(data)
     elif kind=='loaded':
      self.current,self.ply,self.xyz,self.labels,self.review,self.info=data;self.selected=None;self.undo=[];self.reset_view=True;self.labels_version+=1
+     self.focus=None;self.side=False;self.pick_highlight=False
+     self.isolated=False;self.reset_clip(False)
      self.status.set(f'{self.current.name} · {len(self.labels):,}점 · 부자재 {self.info["objects"]}개 추정 · 경계/불확실 점 {self.info["review_fraction"]:.1%} · 자동 초안');self.draw()
   except queue.Empty:pass
   self.win.after(100,self.poll)
  def fit_view(self):self.reset_view=True;self.draw()
+ def plane(self):return ((1,2) if getattr(self,'direction','앞')=='옆' else (0,2)) if self.side else (0,1)
+ def reset_clip(self,redraw=True):
+  if getattr(self,'clip_timer',None) is not None:self.win.after_cancel(self.clip_timer);self.clip_timer=None
+  self.clip_bounds=None
+  if hasattr(self,'clip_enabled'):
+   self.clip_enabled.set(False);self.clip_low.set(0.);self.clip_high.set(100.);self.clip_status.set('전체 구간')
+  self.selected=None;self.pick_highlight=False
+  if redraw:self.draw()
+ def change_clip_axis(self,event=None):
+  if self.busy:return
+  if self.focused_label() is None:
+   self.reset_clip(False);self.status.set('먼저 부재를 클릭해서 고르세요.');return
+  axis={'높이 Z':2,'깊이 Y':1,'가로 X':0}[self.clip_axis.get()]
+  values=self.xyz[self.labels==self.focus,axis]
+  self.clip_bounds=(axis,float(values.min()),float(values.max()))
+  self.clip_low.set(0.);self.clip_high.set(100.);self.apply_clip()
+ def queue_clip(self,value=None):
+  if self.busy or not self.clip_enabled.get():return
+  if self.clip_timer is not None:self.win.after_cancel(self.clip_timer)
+  # Clear any previous selection immediately; redraw is debounced.
+  self.selected=None;self.pick_highlight=False
+  self.clip_timer=self.win.after(80,self.apply_clip)
+ def apply_clip(self):
+  self.clip_timer=None;self.selected=None;self.pick_highlight=False;self.draw()
+ def visible_mask(self):
+  mask=np.ones(len(self.labels),bool)
+  focus=self.focused_label()
+  if getattr(self,'isolated',False) and focus is not None:mask&=self.labels==focus
+  if not self.show_pallet.get():mask&=self.labels!=1
+  if getattr(self,'clip_bounds',None) is not None and self.clip_enabled.get():
+   axis,lo,hi=self.clip_bounds
+   a,b=sorted((self.clip_low.get(),self.clip_high.get()))
+   low=lo+(hi-lo)*a/100;high=lo+(hi-lo)*b/100
+   mask&=(self.xyz[:,axis]>=low)&(self.xyz[:,axis]<=high)
+  return mask
+ def toggle_isolation(self):
+  if self.busy or self.labels is None:return
+  if self.focused_label() is None:self.status.set('먼저 부재를 클릭해서 고르세요.');return
+  self.isolated=not self.isolated
+  self.selected=None;self.pick_highlight=False;self.reset_view=True;self.draw()
+ def set_direction(self,name):
+  if self.busy:return
+  # '2D' is the counterpart of '3D': it leaves the rotating view for the flat
+  # plane that was last in use, so the chosen plane survives a trip through 3D.
+  if name=='2D':name=self.direction
+  if name=='3D':self.view3d=True;self.side=False
+  else:self.direction=name;self.view3d=False;self.side=name in ('앞','옆')
+  if self.focused_label() is not None:self.isolated=True
+  self.selected=None;self.pick_highlight=False;self.reset_view=True;self.draw()
+ def focused_label(self):
+  if self.focus is not None and (self.labels is None or not np.any(self.labels==self.focus)):self.focus=None
+  return self.focus
+ def side_view(self):
+  self.set_direction('위' if self.side else '앞')
  def clear_selection(self):
-  if self.selected is None:return
-  self.selected=None;self.status.set('선택을 해제했습니다.');self.draw()
+  if self.selected is None and self.focus is None and not self.side:return
+  self.selected=None;self.focus=None;self.pick_highlight=False
+  self.isolated=False;self.reset_clip(False)
+  if self.side:self.side=False;self.reset_view=True
+  self.status.set('선택과 부재 고정을 해제했습니다.');self.draw()
  def zoom(self,event):
   if event.inaxes!=self.ax or self.labels is None:return
   factor=.85 if event.button=='up' else 1/.85
@@ -253,7 +336,8 @@ class App:
   if len(pts)<=INTERACTIVE_POINTS:return
   k=display_indices(len(pts),INTERACTIVE_POINTS);p=pts[k];c=colors[k];size=size*INTERACTIVE_POINT_SCALE
   if self.view3d:self.lod_artist=self.ax.scatter(p[:,0],p[:,1],p[:,2],c=c,s=size,depthshade=False,linewidths=0,antialiased=False)
-  else:self.lod_artist=self.ax.scatter(p[:,0],p[:,1],c=c,s=size,linewidths=0,antialiased=False)
+  else:
+   h,v=self.plane();self.lod_artist=self.ax.scatter(p[:,h],p[:,v],c=c,s=size,linewidths=0,antialiased=False)
   self.lod_artist.set_visible(False)
  def label_centers(self):
   # Scanning every point once per object is too slow to repeat on each redraw.
@@ -264,6 +348,18 @@ class App:
    self.centers=(self.labels_version,centers)
   return self.centers[1]
  def draw(self):
+  focus=self.focused_label()
+  if focus is None and (self.isolated or self.clip_bounds is not None):
+   self.isolated=False;self.reset_clip(False);self.reset_view=True
+  self.isolate_button.configure(text='전체 함께 보기' if self.isolated else '선택 부재만 보기')
+  active={'3D'} if self.view3d else {'2D',self.direction}
+  for name,button in self.view_buttons.items():button.configure(style='On.TButton' if name in active else 'Off.TButton')
+  self.scope_status.set(f'고정: 라벨 {focus}' if focus is not None else '부재를 클릭하세요')
+  for slider in self.clip_scales:slider.configure(state='normal' if self.clip_enabled.get() else 'disabled')
+  if self.clip_bounds is not None and self.clip_enabled.get():
+   axis,lo,hi=self.clip_bounds;a,b=sorted((self.clip_low.get(),self.clip_high.get()))
+   self.clip_status.set(f'{lo+(hi-lo)*a/100:.1f} ~ {lo+(hi-lo)*b/100:.1f}')
+  else:self.clip_status.set('전체 구간')
   camera=None;limits=None
   if not self.reset_view and self.labels is not None:
    if self.view3d and getattr(self.ax,'name','')=='3d':camera=(self.ax.elev,self.ax.azim,self.ax.roll);limits=(self.ax.get_xlim(),self.ax.get_ylim(),self.ax.get_zlim())
@@ -276,9 +372,9 @@ class App:
    self.fig.text(.5,.5,'왼쪽에서 PLY 파일을 추가한 뒤 열어 주세요',ha='center',va='center',color=theme.MUTED,fontsize=11)
   else:
    budget={'빠르게':60000,'촘촘하게':200000,'전체 점':None}[self.density.get()]
-   ix=display_indices(len(self.labels),budget)
-   if not self.show_pallet.get():ix=ix[self.labels[ix]!=1]
-   pts=self.xyz[ix];colors=point_colors(self.ply,self.xyz,self.labels,ix,self.color_mode.get(),self.selected)
+   base=np.flatnonzero(self.visible_mask());ix=base[display_indices(len(base),budget)]
+   fit=self.xyz[self.labels==focus] if self.isolated and focus is not None else self.xyz
+   pts=self.xyz[ix];colors=point_colors(self.ply,self.xyz,self.labels,ix,self.color_mode.get(),self.selected,self.pick_highlight)
    size=float(self.point_size.get())
    if self.view3d:
     self.ax.set_proj_type('ortho')
@@ -286,18 +382,22 @@ class App:
     self.ax.mouse_init(rotate_btn=3,pan_btn=2,zoom_btn=[])
     self.full_artist=self.ax.scatter(pts[:,0],pts[:,1],pts[:,2],c=colors,s=size,depthshade=False,linewidths=0,antialiased=False)
     self.add_lod(pts,colors,size)
-    extent=np.maximum(np.ptp(self.xyz,axis=0),1);self.ax.set_box_aspect(extent,zoom=1.12)
+    extent=np.maximum(np.ptp(fit,axis=0),1);self.ax.set_box_aspect(extent,zoom=1.12)
     self.ax.view_init(*(camera or (55,-65,0)))
     if limits:
      self.ax.set_xlim(limits[0]);self.ax.set_ylim(limits[1]);self.ax.set_zlim(limits[2])
     else:
      for k,axis in enumerate('xyz'):
-      lo,hi=np.quantile(self.xyz[:,k],[0,1]);pad=max((hi-lo)*.025,.5);getattr(self.ax,'set_'+axis+'lim')(lo-pad,hi+pad)
+      lo,hi=np.quantile(fit[:,k],[0,1]);pad=max((hi-lo)*.025,.5);getattr(self.ax,'set_'+axis+'lim')(lo-pad,hi+pad)
    else:
-    self.full_artist=self.ax.scatter(pts[:,0],pts[:,1],c=colors,s=size,linewidths=0,antialiased=False);self.add_lod(pts,colors,size)
-    self.ax.set_aspect('equal')
+    h,v=self.plane()
+    self.full_artist=self.ax.scatter(pts[:,h],pts[:,v],c=colors,s=size,linewidths=0,antialiased=False);self.add_lod(pts,colors,size)
+    self.ax.set_aspect('auto' if self.side and self.stretch.get() else 'equal')
     if limits:self.ax.set_xlim(limits[0]);self.ax.set_ylim(limits[1])
-    else:self.ax.set_xlim(self.xyz[:,0].min()-20,self.xyz[:,0].max()+20);self.ax.set_ylim(self.xyz[:,1].min()-20,self.xyz[:,1].max()+20)
+    else:
+     for axis,k in (('x',h),('y',v)):
+      lo,hi=fit[:,k].min(),fit[:,k].max();pad=max((hi-lo)*.05,1) if self.side else 20
+      getattr(self.ax,'set_'+axis+'lim')(lo-pad,hi+pad)
    self.lasso=LassoSelector(self.ax,self.select,button=1,props=dict(color='white',linewidth=1.5))
    # mplot3d forces its axes region square (Axes3D.apply_aspect), which on a wide canvas
    # leaves wide empty margins and cuts the cloud off well inside them. Paint over the
@@ -306,12 +406,21 @@ class App:
     if artist is not None:artist.set_clip_on(False)
    if self.show_numbers.get():
     for lab,center in self.label_centers().items():
+     if lab not in self.labels[ix]:continue
      if lab==1 and not self.show_pallet.get():continue
      kw=dict(fontsize=10,color='white',weight='bold',ha='center',bbox=dict(facecolor='#0a1322',alpha=.85,edgecolor='none',pad=2))
      if self.view3d:self.ax.text(*center,str(lab),**kw)
-     else:self.ax.text(*center[:2],str(lab),**kw)
+     else:
+      h,v=self.plane()
+      z=float(np.median(self.xyz[self.labels==lab,2])) if self.side else center[v]
+      self.ax.text(center[h],z,str(lab),**kw)
    # On the figure, not the axes: a 3D axes sits inset from the canvas edge.
-   self.fig.text(.012,.975,f'{self.current.name}  |  {len(ix):,} / {len(self.labels):,} points',color='#c6d8ed',fontsize=9,va='top',
+   caption=f'{self.current.name}  |  {len(ix):,} / {len(self.labels):,} points'
+   if focus is not None:caption+=f'  |  focus label {focus}'
+   if self.side:caption+=('  |  front XZ' if self.direction=='앞' else '  |  side YZ')+(' (height stretched)' if self.stretch.get() else '')
+   if self.clip_enabled.get():caption+='  |  clipped'
+   if not len(ix):self.fig.text(.5,.5,'이 구간에 표시할 점이 없습니다. 구간을 넓히세요.',ha='center',color='white')
+   self.fig.text(.012,.975,caption,color='#c6d8ed',fontsize=9,va='top',
                  bbox=dict(facecolor=BACKGROUND,alpha=.75,edgecolor='none',pad=3))
   self.reset_view=False
   # Paint the sparse pass first so a toggle feels instant, then fill in full detail.
@@ -319,33 +428,49 @@ class App:
   if self.lod_artist is not None:self.settle_later()
  def screen_xy(self):
   """Every point in the flat coordinate space the lasso reports its vertices in."""
-  if not self.view3d:return self.xyz[:,:2]
+  if not self.view3d:return self.xyz[:,self.plane()]
   xs,ys,_=proj3d.proj_transform(self.xyz[:,0],self.xyz[:,1],self.xyz[:,2],self.ax.get_proj())
   return np.column_stack([xs,ys])
  def select(self,vertices):
   if self.busy or self.labels is None:return
   vertices=np.asarray(vertices,dtype=float)
+  if len(vertices)==0:return
   # A click lands here as a lasso a few pixels wide; treat it as picking one object.
   if len(vertices)<3 or np.ptp(self.ax.transData.transform(vertices),axis=0).max()<CLICK_SLOP:
    self.pick(vertices[0]);return
   inside=Polygon(vertices).contains_points(self.screen_xy())
+  inside&=self.visible_mask()
+  focus=self.focused_label()
+  if focus is not None:inside&=self.labels==focus
   if not self.show_pallet.get():inside&=self.labels!=1
-  self.choose(inside)
+  self.pick_highlight=False
+  self.choose(inside,f'라벨 {focus} 안의 영역' if focus is not None else '전체 영역',restrict_focus=True)
  def pick(self,point):
   pixels=self.ax.transData.transform(self.screen_xy())
   gap=((pixels-self.ax.transData.transform(point))**2).sum(1)
+  gap[~self.visible_mask()]=np.inf
+  if not self.show_pallet.get():gap[self.labels==1]=np.inf
   near=int(np.argmin(gap))
-  if gap[near]>PICK_RADIUS**2:self.clear_selection();return
+  if gap[near]>PICK_RADIUS**2:
+   if self.side:
+    self.selected=None;self.pick_highlight=False;self.status.set('점 선택을 해제했습니다. 옆에서 보기와 부재 고정은 유지됩니다.');self.draw()
+   else:self.clear_selection()
+   return
   lab=int(self.labels[near])
   if lab==1 and not self.show_pallet.get():self.clear_selection();return
-  whole=self.labels==lab
+  whole=(self.labels==lab)&self.visible_mask()
   # Clicking the object that is already selected on its own clears it again.
   if self.selected is not None and not self.press_key and np.array_equal(self.selected,whole):self.clear_selection();return
-  self.choose(whole,f'라벨 {lab} 전체')
- def choose(self,mask,what='영역'):
+  if self.focus!=lab:self.reset_clip(False)
+  self.focus=lab;self.pick_highlight=True
+  self.choose(whole,f'라벨 {lab} 전체 (이후 드래그는 이 부재 안에서만)')
+ def choose(self,mask,what='영역',restrict_focus=False):
   key=self.press_key or ''
   if self.selected is not None and 'shift' in key:mask=self.selected|mask
   elif self.selected is not None and 'alt' in key:mask=self.selected&~mask
+  if restrict_focus and self.focused_label() is not None:mask&=self.labels==self.focus
+  if restrict_focus and not self.show_pallet.get():mask&=self.labels!=1
+  mask&=self.visible_mask()
   count=int(mask.sum())
   self.selected=mask if count else None
   self.status.set(f'{what} {count:,}점 선택됨. 라벨 번호를 입력하고 적용하세요.' if count else '선택한 점이 없습니다.')
@@ -353,19 +478,23 @@ class App:
  def assign(self):
   if self.busy:return
   if self.selected is None or not np.any(self.selected):return
+  self.selected&=self.visible_mask()
+  if not np.any(self.selected):self.selected=None;return
   try:
    value=int(self.label.get())
    if value<1 or value>100000:raise ValueError()
   except ValueError:messagebox.showerror('라벨 번호','1 이상의 정수를 입력하세요.');return
   self.undo.append((np.flatnonzero(self.selected),self.labels[self.selected].copy(),self.review[self.selected].copy()))
   if len(self.undo)>20:self.undo.pop(0)
-  self.labels[self.selected]=value;self.review[self.selected]=0;self.selected=None;self.labels_version+=1;self.draw();self.status.set('수정했습니다. 결과 저장 버튼으로 새 PLY를 저장하세요.')
+  self.labels[self.selected]=value;self.review[self.selected]=0;self.selected=None;self.pick_highlight=False;self.labels_version+=1;self.draw()
+  scope=f' 드래그는 라벨 {self.focus} 안으로 제한됩니다.' if self.focused_label() is not None else ''
+  self.status.set('수정했습니다. 결과 저장 버튼으로 새 PLY를 저장하세요.'+scope)
  def new_object(self):
   if self.labels is not None:self.label.set(str(int(self.labels.max())+1));self.assign()
  def rollback(self):
   if self.busy or not self.undo:return
-  ix,old,review=self.undo.pop();self.labels[ix]=old;self.review[ix]=review;self.selected=None;self.labels_version+=1;self.draw()
- def toggle(self):self.view3d=not self.view3d;self.reset_view=True;self.draw()
+  ix,old,review=self.undo.pop();self.labels[ix]=old;self.review[ix]=review;self.selected=None;self.pick_highlight=False;self.labels_version+=1;self.draw()
+ def toggle(self):self.set_direction('2D' if self.view3d else '3D')
  def is_source(self,path):
   """True when path is one of the PLY files we read, which must never be written over."""
   for other in [self.current,*self.files]:
@@ -388,6 +517,8 @@ class App:
    for new,old in enumerate(np.unique(self.labels[self.labels>1]),2):out[self.labels==old]=new
    # The file dialog already asked before replacing anything.
    save_cloud(self.ply,out,dest,self.review,overwrite=True)
+   if self.focused_label() is not None:self.focus=int(out[np.flatnonzero(self.labels==self.focus)[0]])
+   self.selected=None;self.pick_highlight=False
    self.labels=out;self.undo=[];self.labels_version+=1;self.draw();self.status.set(f'저장 완료 · {dest}');messagebox.showinfo('저장 완료',f'{dest}\n\nCloudCompare에서 instance_label을 선택해 확인하세요.')
   except Exception as e:messagebox.showerror('저장 오류',str(e))
 

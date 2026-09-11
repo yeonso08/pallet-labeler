@@ -15,7 +15,7 @@ def display_indices(count,budget):
     ix.setflags(write=False)  # the cache hands the same array to every caller
     return ix
 
-def point_colors(ply,xyz,labels,indices,mode,selected=None):
+def point_colors(ply,xyz,labels,indices,mode,selected=None,blend_original=False):
     if mode=='원본 색상':
         a=ply['vertex'].data
         if all(n in a.dtype.names for n in ('red','green','blue')):
@@ -25,5 +25,10 @@ def point_colors(ply,xyz,labels,indices,mode,selected=None):
         lo,hi=np.quantile(xyz[:,2],[.01,.99]);v=np.clip((xyz[indices,2]-lo)/max(hi-lo,1e-8),0,1)
         rgb=colormaps['turbo'](v)[:,:3].copy()
     else:rgb=PALETTE[(labels[indices]-1)%len(PALETTE)].copy()
-    if selected is not None:rgb[selected[indices]]=[1,1,1]
+    if selected is not None:
+        sel=selected[indices];a=ply['vertex'].data
+        if blend_original and all(n in a.dtype.names for n in ('red','green','blue')):
+            base=np.column_stack([a[n][indices] for n in ('red','green','blue')]).astype(np.float32)/255
+            rgb[sel]=base[sel]*.5+.5
+        else:rgb[sel]=[1,1,1]
     return rgb
