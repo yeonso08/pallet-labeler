@@ -55,7 +55,8 @@ class SelectionTests(unittest.TestCase):
 
     def test_pick_hidden_pallet_filters_before_nearest_search(self):
         a=self.a;a.show_pallet.set(False)
-        a.pick((0,0))
+        a.labels=np.array([3,2,1,2,3])   # the pallet now sits on top of the stack
+        a.pick((0.,0.))
         self.assertEqual(a.focus,2);self.assertTrue(np.all(a.labels[a.selected]==2))
 
     def test_clear_leaves_side_and_releases_focus(self):
@@ -85,6 +86,15 @@ class SelectionTests(unittest.TestCase):
     def test_hidden_old_selection_cannot_be_applied(self):
         a=self.clipping();a.selected=a.labels==2
         a.assign();np.testing.assert_array_equal(a.labels,[1,4,3,2,3])
+
+    def test_click_takes_the_top_of_a_stack_not_the_bottom(self):
+        a=self.a
+        # Points 0, 1 and 2 share one XY spot at heights 0, 5 and 10.
+        a.pick((0.,0.))
+        self.assertEqual(a.focus,3)
+        a.view3d=False;a.side=True;a.direction='앞'
+        self.assertEqual(a.plane(),(0,2))
+        np.testing.assert_array_equal(a.viewer_depth(),-a.xyz[:,1])
 
     def test_direction_switches_plane_and_leaves_isolation_alone(self):
         a=self.a;a.focus=2

@@ -1,6 +1,6 @@
 """Desktop interface: local prediction, point selection, correction and safe export."""
 from pathlib import Path
-import json,queue,threading,time,traceback
+import json,logging,queue,threading,time,traceback
 import tkinter as tk
 from tkinter import ttk,filedialog,messagebox
 import numpy as np
@@ -15,6 +15,9 @@ from viewer import BACKGROUND,display_indices,point_colors
 import theme
 
 ROOT=Path(__file__).resolve().parent
+# Widening one axis to hold the scale equal is exactly what the flat views ask
+# for, and matplotlib says so on every draw of one.
+logging.getLogger('matplotlib.axes._base').addFilter(lambda record:'fixed data aspect' not in record.getMessage())
 # Matplotlib rasterizes every point on every frame, so a moving view is only as
 # smooth as the point count: ~2us/point here. Swap to this many while the camera
 # moves, then settle back to full detail once it stops. Marker size costs almost
@@ -38,7 +41,7 @@ class App:
   self.focus=None;self.side=False;self.pick_highlight=False
   self.isolated=False;self.direction='위';self.clip_bounds=None;self.clip_timer=None
   self.full_artist=None;self.lod_artist=None;self.moving=False;self.settle_timer=None;self.labels_version=0;self.centers=None
-  self.press_key=None;self.pan_from=None;self.views={}
+  self.press_key=None;self.pan_from=None;self.views={};self.canvas_size=None;self.resize_timer=None
   config_path=ROOT/'model_config.json'
   self.model_options=json.loads(config_path.read_text()) if config_path.exists() else {'기본 모델':{'file':'model.joblib','split':.1}}
   self.active_model_name=next(iter(self.model_options));self.active_model_file=ROOT/self.model_options[self.active_model_name]['file']
@@ -117,6 +120,7 @@ class App:
   self.canvas=FigureCanvasTkAgg(self.fig,master=right);self.canvas.get_tk_widget().pack(fill='both',expand=True)
   self.toolbar=Toolbar(self.canvas,right);self.lasso=None
   theme.style_toolbar(self.toolbar,fonts)
+  self.canvas.get_tk_widget().bind('<Configure>',self.on_resize)
   self.canvas.mpl_connect('scroll_event',self.zoom)
   self.canvas.mpl_connect('button_press_event',self.start_move)
   self.canvas.mpl_connect('motion_notify_event',self.pan_move)
@@ -240,6 +244,15 @@ class App:
      self.status.set(f'{self.current.name} · {len(self.labels):,}점 · 부자재 {self.info["objects"]}개 추정 · 경계/불확실 점 {self.info["review_fraction"]:.1%} · 자동 초안');self.draw()
   except queue.Empty:pass
   self.win.after(100,self.poll)
+ def on_resize(self,event):
+  """The rectangle that catches the mouse is shaped from the canvas, so redraw once it settles."""
+  size=(event.width,event.height)
+  if size==self.canvas_size:return
+  self.canvas_size=size
+  if self.resize_timer is not None:self.win.after_cancel(self.resize_timer)
+  self.resize_timer=self.win.after(200,self.settle_resize)
+ def settle_resize(self):
+  self.resize_timer=None;self.draw()
  def fit_view(self):self.views.pop(self.view_key(),None);self.reset_view=True;self.draw()
  def plane(self):return ((1,2) if getattr(self,'direction','앞')=='옆' else (0,2)) if self.side else (0,1)
  def reset_clip(self,redraw=True):
@@ -386,7 +399,14 @@ class App:
    elif self.views.get(self.view_key()) is not None:camera,limits=self.views[self.view_key()]
   if self.lasso:self.lasso.disconnect_events();self.lasso=None
   self.cancel_settle();self.moving=False;self.full_artist=None;self.lod_artist=None
-  self.fig.clear();self.fig.set_facecolor(BACKGROUND);self.ax=self.fig.add_axes([.01,.01,.98,.98],projection='3d' if self.view3d else None)
+  # The mouse only reaches points inside the axes rectangle, so that rectangle
+  # has to cover the whole canvas. mplot3d insists on a square one, so hand it
+  # a square that contains the canvas rather than one that fits inside it, and
+  # take the extra size back out of the zoom.
+  width,height=self.canvas.get_width_height();square=max(width,height)
+  fills=bool(width and height)
+  rect=[(width-square)/2/width,(height-square)/2/height,square/width,square/height] if self.view3d and fills else [0,0,1,1]
+  self.fig.clear();self.fig.set_facecolor(BACKGROUND);self.ax=self.fig.add_axes(rect,projection='3d' if self.view3d else None)
   self.ax.set_facecolor(BACKGROUND);self.ax.set_axis_off()
   if self.labels is None:
    self.fig.text(.5,.5,'왼쪽에서 PLY 파일을 추가한 뒤 열어 주세요',ha='center',va='center',color=theme.MUTED,fontsize=11)
@@ -402,7 +422,8 @@ class App:
     self.ax.mouse_init(rotate_btn=3,pan_btn=2,zoom_btn=[])
     self.full_artist=self.ax.scatter(pts[:,0],pts[:,1],pts[:,2],c=colors,s=size,depthshade=False,linewidths=0,antialiased=False)
     self.add_lod(pts,colors,size)
-    extent=np.maximum(np.ptp(fit,axis=0),1);self.ax.set_box_aspect(extent,zoom=1.12)
+    extent=np.maximum(np.ptp(fit,axis=0),1)
+    self.ax.set_box_aspect(extent,zoom=1.12*(.98*min(width,height)/square if fills else 1))
     self.ax.view_init(*(camera or (55,-65,0)))
     if limits:
      self.ax.set_xlim(limits[0]);self.ax.set_ylim(limits[1]);self.ax.set_zlim(limits[2])
@@ -412,16 +433,18 @@ class App:
    else:
     h,v=self.plane()
     self.full_artist=self.ax.scatter(pts[:,h],pts[:,v],c=colors,s=size,linewidths=0,antialiased=False);self.add_lod(pts,colors,size)
-    self.ax.set_aspect('auto' if self.side and self.stretch.get() else 'equal')
+    # Equal scaling shrinks the axes box by default, which would put part of
+    # the cloud outside it; widen the limits instead and keep the full canvas.
+    if self.side and self.stretch.get():self.ax.set_aspect('auto')
+    else:self.ax.set_aspect('equal',adjustable='datalim')
     if limits:self.ax.set_xlim(limits[0]);self.ax.set_ylim(limits[1])
     else:
      for axis,k in (('x',h),('y',v)):
       lo,hi=fit[:,k].min(),fit[:,k].max();pad=max((hi-lo)*.05,1) if self.side else 20
       getattr(self.ax,'set_'+axis+'lim')(lo-pad,hi+pad)
    self.lasso=LassoSelector(self.ax,self.select,button=1,props=dict(color='white',linewidth=1.5))
-   # mplot3d forces its axes region square (Axes3D.apply_aspect), which on a wide canvas
-   # leaves wide empty margins and cuts the cloud off well inside them. Paint over the
-   # whole figure instead of stopping at the axes rectangle.
+   # Belt and braces with the covering rectangle above: never stop painting at
+   # the axes edge, which used to cut the cloud off inside the canvas.
    for artist in (self.full_artist,self.lod_artist):
     if artist is not None:artist.set_clip_on(False)
    if self.show_numbers.get():
@@ -451,6 +474,11 @@ class App:
   if not self.view3d:return self.xyz[:,self.plane()]
   xs,ys,_=proj3d.proj_transform(self.xyz[:,0],self.xyz[:,1],self.xyz[:,2],self.ax.get_proj())
   return np.column_stack([xs,ys])
+ def viewer_depth(self):
+  """How near the viewer each point is, larger being nearer."""
+  if self.view3d:return proj3d.proj_transform(self.xyz[:,0],self.xyz[:,1],self.xyz[:,2],self.ax.get_proj())[2]
+  # A flat view drops one axis, and the viewer stands on its near side.
+  return {(0,1):self.xyz[:,2],(0,2):-self.xyz[:,1],(1,2):-self.xyz[:,0]}[self.plane()]
  def select(self,vertices):
   if self.busy or self.labels is None:return
   vertices=np.asarray(vertices,dtype=float)
@@ -476,6 +504,9 @@ class App:
     self.selected=None;self.pick_highlight=False;self.status.set('점 선택을 해제했습니다. 옆에서 보기와 부재 고정은 유지됩니다.');self.draw()
    else:self.clear_selection()
    return
+  # Of everything under the cursor take the nearest to the viewer, so a click
+  # lands on what it looks like it is on and not on something hidden behind.
+  near=int(np.argmax(np.where(gap<=PICK_RADIUS**2,self.viewer_depth(),-np.inf)))
   lab=int(self.labels[near])
   if lab==1 and not self.show_pallet.get():self.clear_selection();return
   whole=(self.labels==lab)&self.visible_mask()

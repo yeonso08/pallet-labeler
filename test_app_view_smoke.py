@@ -77,6 +77,22 @@ def main():
         root.update()
         assert app.selected is not None and app.selected.sum()>=(app.labels==3).sum()
         app.clear_selection();app.set_direction('3D');root.update()
+        # Zooming in used to push a third of the cloud outside the axes
+        # rectangle, where no click or drag could reach it.
+        for direction in ('3D','위','앞'):
+            app.set_direction(direction);root.update()
+            w,h=app.canvas.get_width_height()
+            for _ in range(4):
+                MouseEvent('scroll_event',app.canvas,w/2,h/2,step=1)._process()
+            app.cancel_settle();app.settle();root.update()
+            pixels=app.ax.transData.transform(app.screen_xy())
+            x0,y0,bw,bh=app.ax.bbox.bounds
+            drawn=(pixels[:,0]>=0)&(pixels[:,0]<=w)&(pixels[:,1]>=0)&(pixels[:,1]<=h)
+            reachable=(pixels[:,0]>=x0)&(pixels[:,0]<=x0+bw)&(pixels[:,1]>=y0)&(pixels[:,1]<=y0+bh)
+            assert drawn.any(),direction
+            assert not (drawn&~reachable).any(),(direction,int((drawn&~reachable).sum()))
+            app.fit_view();root.update()
+        app.set_direction('위');root.update()
         app.set_direction('2D');root.update()
         assert not app.view3d and app.ax.name!='3d'
         assert app.view_buttons['2D'].cget('style')=='On.TButton'
